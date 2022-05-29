@@ -13,7 +13,10 @@ const Stack = createStackNavigator();
 
 const HomeStackNavigator = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={() => ({
+                headerShown: false,
+            })}>
             <Stack.Screen name="StackHome" options={{ title: 'Accueil' }} component={Home} />
             <Stack.Screen name="Messages" component={Messages} />
         </Stack.Navigator>
@@ -22,7 +25,10 @@ const HomeStackNavigator = () => {
 
 const ExplorerStackNavigator = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={() => ({
+                headerShown: false,
+            })}>
             <Stack.Screen name="Explorer" component={Explorer} />
         </Stack.Navigator>
     );
@@ -30,7 +36,10 @@ const ExplorerStackNavigator = () => {
 
 const NotificationsStackNavigator = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={() => ({
+                headerShown: false,
+            })}>
             <Stack.Screen name="Notifications" component={Notifications} />
         </Stack.Navigator>
     );
@@ -38,7 +47,10 @@ const NotificationsStackNavigator = () => {
 
 const MapStackNavigator = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={() => ({
+                headerShown: false,
+            })}>
             <Stack.Screen name="Map" component={Map} />
         </Stack.Navigator>
     );

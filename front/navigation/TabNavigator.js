@@ -13,6 +13,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
     return (
         <Tab.Navigator
+            initialRouteName='TabMap'
             screenOptions={({ route }) => ({
                 headerShown: false,
                 tabBarShowLabel: false,
