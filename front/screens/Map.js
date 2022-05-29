@@ -10,12 +10,11 @@ import CurrentUserCircleMap from "../components/Map/CurrentUserCircleMap";
 import MapView from 'react-native-maps'
 import { Modalize } from 'react-native-modalize';
 
-import LottieView from 'lottie-react-native';
 import LogoPartner from '../assets/images/logoPartner.svg';
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../assets/css_variables/Colors";
 
-const Map = () => {
+const Map = ({ navigation }) => {
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -37,10 +36,7 @@ const Map = () => {
         })();
     }, []);
 
-
     let text = 'Waiting..';
-    let latitude = null;
-    let longitude = null;
 
     if (errorMsg) {
         text = errorMsg;
@@ -50,7 +46,6 @@ const Map = () => {
     }
 
     const mapRef = createRef();
-
 
     const goToMyLocation = async () => {
         mapRef.current.animateCamera({
@@ -83,9 +78,9 @@ const Map = () => {
                         // showsUserLocation={true}
                         initialRegion={{
                             "latitude": location.coords.latitude,
-                            "latitudeDelta": 0.01,
                             "longitude": location.coords.longitude,
-                            "longitudeDelta": 0.01,
+                            "latitudeDelta": 0.03,
+                            "longitudeDelta": 0.03,
                         }}>
                         <Marker
                             key={1}
@@ -106,23 +101,33 @@ const Map = () => {
                                 longitude: location.coords.longitude,
                             }}
                         >
-                            {/* <LottieView
-                                autoPlay
-                                style={styles.LottieUserLocation}
-                                source={require('../assets/lotties/userLocation.json')}
-                            /> */}
                             <CurrentUserCircleMap />
                         </Marker>
                     </MapView>
                 </View>
             )}
+            {/* MAPS BUTTON AND OVERLAY */}
+
+            <View style={styles.headerMap}>
+                <LogoPartner width={190} height={40} />
+            </View>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("SearchTraining")}
+                style={styles.btnSearch}
+            >
+                <View style={{
+                    position: 'absolute', backgroundColor: 'white', height: 30,
+                    width: 30, borderRadius: 50, top: '15%', left: '12.5%'
+                }}></View>
+                <Ionicons style={styles.messageIcon} name="search-circle" size={40} />
+            </TouchableOpacity>
             <TouchableOpacity
                 onPress={onOpen}
                 style={styles.createSceance}
             >
                 <View style={{
                     position: 'absolute', backgroundColor: 'white', height: 30,
-                    width: 30, borderRadius: 50, top: '12%', left: '12%'
+                    width: 30, borderRadius: 50, top: '13%', left: '12%'
                 }}></View>
                 <Ionicons style={styles.messageIcon} name="add-circle" size={40} />
             </TouchableOpacity>
@@ -170,6 +175,28 @@ const styles = StyleSheet.create({
         position: "relative",
         flex: 1,
     },
+    headerMap: {
+        paddingHorizontal: 24,
+        // paddingBottom: 16,
+        // backgroundColor: 'white',
+        // height: 100,
+        // position: 'absolute',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+    },
+    btnSearch: {
+        zIndex: 6,
+        borderRadius: 50,
+        position: 'absolute',
+        bottom: 139,
+        right: 24,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 3,
+    },
     btnOnMap: {
         zIndex: 6,
         borderRadius: 50,
@@ -181,19 +208,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.35,
         shadowRadius: 3,
     },
-    LottieUserLocation: {
-        position: 'absolute',
-        top: -9.8,
-        left: -4.6,
-        width: 103,
-        height: 103,
-    },
     centerOnUserIcon: {
         color: colors.primary
     },
     createSceance: {
         position: 'absolute',
-        bottom: 84,
+        bottom: 82,
         right: 24,
         borderRadius: 50,
         shadowColor: 'black',

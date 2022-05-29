@@ -7,6 +7,7 @@ import Home from "../screens/Home";
 import Notifications from "../screens/Notifications";
 import Map from "../screens/Map";
 import Messages from "../screens/Messages";
+import SearchTraining from "../screens/SearchTraining";
 import Explorer from "../screens/Explorer";
 
 const Stack = createStackNavigator();
@@ -52,6 +53,7 @@ const MapStackNavigator = () => {
                 headerShown: false,
             })}>
             <Stack.Screen name="Map" component={Map} />
+            <Stack.Screen name="SearchTraining" component={SearchTraining} />
         </Stack.Navigator>
     );
 }
