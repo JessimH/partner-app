@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     },
     homeHeader: {
         paddingHorizontal: 24,
+        paddingBottom: 16,
         display: 'flex',
         flexDirection: 'row',
         width: '100%',

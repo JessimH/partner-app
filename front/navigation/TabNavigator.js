@@ -2,8 +2,9 @@
 
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeStackNavigator, ExplorerStackNavigator, NotificationsStackNavigator, MapStackNavigator } from "./StackNavigator";
+import { HomeStackNavigator, ExplorerStackNavigator, NotificationsStackNavigator, MapStackNavigator, UserProfilStackNavigator } from "./StackNavigator";
 import { Ionicons } from "@expo/vector-icons";
+import TabUserCircle from "../components/Global/TabUserCircle";
 
 
 import colors from '../assets/css_variables/Colors';
@@ -27,7 +28,7 @@ const BottomTabNavigator = () => {
                     } else if (route.name === 'TabExplorer') {
                         iconName = focused
                             ? 'search'
-                            : 'search-outline';
+                            : 'search';
                     } else if (route.name === 'TabMap') {
                         iconName = focused
                             ? 'navigate'
@@ -37,7 +38,6 @@ const BottomTabNavigator = () => {
                             ? 'notifications'
                             : 'notifications-outline';
                     }
-
                     // You can return any component that you like here!
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
@@ -48,6 +48,21 @@ const BottomTabNavigator = () => {
             <Tab.Screen name="TabExplorer" component={ExplorerStackNavigator} />
             <Tab.Screen name="TabMap" component={MapStackNavigator} />
             <Tab.Screen name="TabNotifications" options={{ tabBarBadge: 2 }} component={NotificationsStackNavigator} />
+            <Tab.Screen
+                name="TabUserProfil"
+                component={UserProfilStackNavigator}
+                options={({ route }) => ({
+                    tabBarLabel: '',
+                    tabBarIcon: ({ focused }) => {
+                        let border;
+
+                        if (route.name === 'TabUserProfil') {
+                            border = focused
+                        }
+                        return <TabUserCircle focus={border} />
+                    }
+                })}
+            />
         </Tab.Navigator>
     );
 };

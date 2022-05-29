@@ -9,6 +9,7 @@ import Map from "../screens/Map";
 import Messages from "../screens/Messages";
 import SearchTraining from "../screens/SearchTraining";
 import Explorer from "../screens/Explorer";
+import UserProfil from "../screens/UserProfil";
 
 const Stack = createStackNavigator();
 
@@ -58,4 +59,15 @@ const MapStackNavigator = () => {
     );
 }
 
-export { HomeStackNavigator, ExplorerStackNavigator, NotificationsStackNavigator, MapStackNavigator };
+const UserProfilStackNavigator = () => {
+    return (
+        <Stack.Navigator
+            screenOptions={() => ({
+                headerShown: false,
+            })}>
+            <Stack.Screen name="UserProfil" component={UserProfil} />
+        </Stack.Navigator>
+    );
+}
+
+export { HomeStackNavigator, ExplorerStackNavigator, NotificationsStackNavigator, MapStackNavigator, UserProfilStackNavigator };
