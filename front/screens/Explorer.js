@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, SafeAreaView, TextInput, ScrollView } from "react-native";
+import {View, StyleSheet, Text, SafeAreaView, TextInput, ScrollView, Plateform} from "react-native";
 
 import colors from '../assets/css_variables/Colors';
 import { Ionicons } from "@expo/vector-icons";
@@ -37,6 +37,7 @@ const Explorer = () => {
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: Plateform === 'ios' ? 0: 40,
         flex: 1,
         textAlign: "left",
         backgroundColor: colors.background,

@@ -13,6 +13,7 @@ const CurrentUserCircleMap = () => {
                 />
                 <LottieView
                     autoPlay
+                    loop={true}
                     style={styles.LottieUserLocation}
                     source={require('../../assets/lotties/userLocation.json')}
                 />

@@ -1,7 +1,7 @@
 // ./screens/About.js
 
 import React from "react";
-import { View, StyleSheet, Text, SafeAreaView } from "react-native";
+import {View, StyleSheet, Text, SafeAreaView, Plateform} from "react-native";
 import {ScrollView} from "react-native-gesture-handler";
 import UserRow from "../components/Global/UserRow";
 import Feed from "../components/Global/Feed";
@@ -21,6 +21,7 @@ const UserProfil = () => {
 
 const styles = StyleSheet.create({
     center: {
+        paddingTop: Plateform === 'ios' ? 0: 40,
         flex: 1,
         alignItems: "center",
         textAlign: "center",

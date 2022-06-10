@@ -1,7 +1,17 @@
 // ./screens/Contact.js
 
 import React, { useState, useEffect, createRef, useRef } from "react";
-import { View, StyleSheet, Text, Dimensions, Platform, SafeAreaView, TouchableOpacity, TextInput } from "react-native";
+import {
+    View,
+    StyleSheet,
+    Text,
+    Dimensions,
+    Platform,
+    SafeAreaView,
+    TouchableOpacity,
+    TextInput,
+    Plateform
+} from "react-native";
 import * as Location from 'expo-location';
 import { Marker } from 'react-native-maps';
 
@@ -187,6 +197,7 @@ const styles = StyleSheet.create({
     center: {
         position: "relative",
         flex: 1,
+        paddingTop: Plateform === 'ios' ? 0: 40,
     },
     headerMap: {
         paddingHorizontal: 24,
