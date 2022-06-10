@@ -5,23 +5,6 @@ import { Ionicons } from "@expo/vector-icons";
 // import { Camera, CameraType } from 'expo-camera';
 
 const CurrentUserCircle = ({ navigation }) => {
-    // const [hasPermission, setHasPermission] = useState(null);
-    // const [type, setType] = useState(CameraType.back);
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const { status } = await Camera.requestCameraPermissionsAsync();
-    //         setHasPermission(status === 'granted');
-    //     })();
-    // }, []);
-
-    // if (hasPermission === null) {
-    //     return <View />;
-    // }
-    // if (hasPermission === false) {
-    //     return <Text>No access to camera</Text>;
-    // }
-
     return (
         <View style={styles.UserCircle}>
             <View style={[styles.UserPic_container, styles.noStory]}>
@@ -31,9 +14,6 @@ const CurrentUserCircle = ({ navigation }) => {
                 />
             </View>
             <TouchableOpacity
-                // onPress={() => {
-                //     setType(type === CameraType.back ? CameraType.front : CameraType.back);
-                // }}
                 style={styles.addStoBtn}>
                 <Ionicons style={styles.addStoryIcon} name="add-circle" size={23} />
             </TouchableOpacity>
@@ -54,7 +34,6 @@ const styles = StyleSheet.create({
         padding: 3,
         borderRadius: 50,
         borderWidth: 2,
-        borderRadius: 50,
         marginBottom: 4
     },
     proBorder: {
@@ -81,7 +60,7 @@ const styles = StyleSheet.create({
         right: -2,
         top: 50,
         zIndex: 2,
-        backgroundColor: 'white',
+        backgroundColor: colors.background,
         borderRadius: 50,
         display: "flex",
         flexDirection: "row",

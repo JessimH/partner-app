@@ -45,6 +45,7 @@ const Map = ({ navigation }) => {
         // console.log(location.coords)
     }
 
+    /*GO SOMEWHERE ON MAP*/
     const mapRef = createRef();
 
     const goToMyLocation = async () => {
@@ -56,56 +57,80 @@ const Map = ({ navigation }) => {
         });
     }
 
+    /*EXEMPLE*/
+
+    const goToMarkerLocation = async () => {
+        let markerLongitude = location.coords.longitude;
+        let markerLatitude = location.coords.latitude + 0.005;
+
+        mapRef.current.animateCamera({
+            center: {
+                "latitude": markerLatitude,
+                "longitude": markerLongitude
+            }
+        });
+    }
+
     // ADD SCEANCE MODAL FUCTIONS
     const modalizeRef = useRef(null);
 
-    const onOpen = () => {
+    const openAddSeance = () => {
         modalizeRef.current?.open();
     };
 
-    const onClose = () => {
+    const closeAddSeance = () => {
         modalizeRef.current?.close();
     };
 
 
     return (
         <SafeAreaView style={styles.center}>
-            {location && (
-                <View style={StyleSheet.absoluteFillObject}>
-                    <MapView
-                        ref={mapRef}
-                        style={StyleSheet.absoluteFillObject}
-                        // showsUserLocation={true}
-                        initialRegion={{
-                            "latitude": location.coords.latitude,
-                            "longitude": location.coords.longitude,
-                            "latitudeDelta": 0.03,
-                            "longitudeDelta": 0.03,
-                        }}>
-                        <Marker
-                            key={1}
-                            style={{ zIndex: 4 }}
-                            onPress={() => { console.log("🏀") }}
-                            coordinate={{
-                                latitude: location.coords.latitude + 0.005,
-                                longitude: location.coords.longitude,
-                            }}
-                        >
-                            <SportCircle />
-                        </Marker>
-                        <Marker
-                            key={2}
-                            style={{ zIndex: 3 }}
-                            coordinate={{
-                                latitude: location.coords.latitude,
-                                longitude: location.coords.longitude,
-                            }}
-                        >
-                            <CurrentUserCircleMap />
-                        </Marker>
-                    </MapView>
-                </View>
-            )}
+            {location
+                ? (
+                    <View style={StyleSheet.absoluteFillObject}>
+                        <MapView
+                            ref={mapRef}
+                            style={StyleSheet.absoluteFillObject}
+                            // showsUserLocation={true}
+                            initialRegion={{
+                                "latitude": location.coords.latitude,
+                                "longitude": location.coords.longitude,
+                                "latitudeDelta": 0.03,
+                                "longitudeDelta": 0.03,
+                            }}>
+                            <Marker
+                                key={1}
+                                style={{ zIndex: 4 }}
+                                onPress={goToMarkerLocation}
+                                coordinate={{
+                                    latitude: location.coords.latitude + 0.005,
+                                    longitude: location.coords.longitude,
+                                }}
+                            >
+                                <SportCircle sportType={'⚽️'}/>
+                            </Marker>
+
+                            {/*USER MARKER*/}
+                            <Marker
+                                key={2}
+                                style={{ zIndex: 3 }}
+                                onPress={goToMyLocation}
+                                coordinate={{
+                                    latitude: location.coords.latitude,
+                                    longitude: location.coords.longitude,
+                                }}
+                            >
+                                <CurrentUserCircleMap />
+                            </Marker>
+                        </MapView>
+                    </View>
+                )
+                :(
+                    <View style={StyleSheet.absoluteFillObject}>
+                        <MapView style={StyleSheet.absoluteFillObject}></MapView>
+                    </View>
+                )
+            }
             {/* MAPS BUTTON AND OVERLAY */}
 
             <View style={styles.headerMap}>
@@ -115,31 +140,19 @@ const Map = ({ navigation }) => {
                 onPress={() => navigation.navigate("SearchTraining")}
                 style={styles.btnSearch}
             >
-                <View style={{
-                    position: 'absolute', backgroundColor: 'white', height: 30,
-                    width: 30, borderRadius: 50, top: '15%', left: '12.5%'
-                }}></View>
-                <Ionicons style={styles.messageIcon} name="search-circle" size={40} />
+                <Ionicons style={styles.messageIcon} name="search" size={24} />
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={onOpen}
+                onPress={openAddSeance}
                 style={styles.createSceance}
             >
-                <View style={{
-                    position: 'absolute', backgroundColor: 'white', height: 30,
-                    width: 30, borderRadius: 50, top: '13%', left: '12%'
-                }}></View>
-                <Ionicons style={styles.messageIcon} name="add-circle" size={40} />
+                <Ionicons style={styles.messageIcon} name="add" size={30} />
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.btnOnMap}
                 onPress={goToMyLocation}
             >
-                <View style={{
-                    position: 'absolute', backgroundColor: 'white', height: 30,
-                    width: 30, borderRadius: 50, top: '12%', left: '12%'
-                }}></View>
-                <Ionicons style={styles.centerOnUserIcon} name="navigate-circle" size={40} />
+                <Ionicons style={styles.centerOnUserIcon} name="compass-outline" size={30} />
             </TouchableOpacity>
 
             {/* MODALE */}
@@ -152,7 +165,7 @@ const Map = ({ navigation }) => {
                 HeaderComponent={
                     <View>
                         <TouchableOpacity
-                            onPress={onClose}
+                            onPress={closeAddSeance}
                             style={styles.modalHeader}>
                             <View style={styles.barClose}></View>
                         </TouchableOpacity>
@@ -188,9 +201,16 @@ const styles = StyleSheet.create({
     },
     btnSearch: {
         zIndex: 6,
-        borderRadius: 50,
+        borderRadius: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         position: 'absolute',
-        bottom: 139,
+        backgroundColor: colors.background,
+        height: 40,
+        width: 40,
+        bottom: 159,
         right: 24,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 0 },
@@ -199,10 +219,18 @@ const styles = StyleSheet.create({
     },
     btnOnMap: {
         zIndex: 6,
-        borderRadius: 50,
+        borderRadius: 10,
+        height: 40,
+        width: 40,
+        paddingLeft: 3,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         position: 'absolute',
         bottom: 24,
         right: 24,
+        backgroundColor: colors.background,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.35,
@@ -213,9 +241,17 @@ const styles = StyleSheet.create({
     },
     createSceance: {
         position: 'absolute',
-        bottom: 82,
+        bottom: 92,
         right: 24,
-        borderRadius: 50,
+        height: 40,
+        width: 40,
+        paddingLeft: 3,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        backgroundColor: colors.background,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.35,

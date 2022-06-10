@@ -2,19 +2,18 @@ import React from "react";
 import { View, Button, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import colors from "../../assets/css_variables/Colors";
 
-const SportCircle = ({ navigation }) => {
+const SportCircle = ({ navigation, sportType }) => {
     return (
         <View style={styles.SportCircle_container}>
-            <View style={styles.SportCircle}>
-                <Text style={styles.SportCircle_type}>🏀</Text>
-            </View>
+            {sportType && (<View style={styles.SportCircle}>
+                <Text style={styles.SportCircle_type}>{sportType}</Text>
+            </View>)}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     SportCircle_container: {
-        marginLeft: 16,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

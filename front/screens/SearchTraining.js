@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, SafeAreaView } from "react-native";
+import colors from "../assets/css_variables/Colors";
 
 const SearchTraining = () => {
     return (
@@ -14,6 +15,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         textAlign: "center",
+        backgroundColor: colors.background,
     },
 });
 

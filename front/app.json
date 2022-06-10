@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "partner-training",
-    "slug": "Partner-front",
+    "slug": "partner-training",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon.png",

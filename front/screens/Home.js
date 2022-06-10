@@ -8,18 +8,29 @@ import LogoPartner from '../assets/images/logoPartner.svg';
 import { Modalize } from 'react-native-modalize';
 import UserRow from "../components/Global/UserRow";
 import { ScrollView } from "react-native-gesture-handler";
+import Feed from "../components/Global/Feed";
+import SendToUser from "../components/Global/SendToUser";
 
 const Home = ({ navigation }) => {
 
     // ADD POST MODAL FUCTIONS
-    const modalizeRef = useRef(null);
+    const addPostModal = useRef(null);
+    const sendPostModal = useRef(null);
 
-    const onOpen = () => {
-        modalizeRef.current?.open();
+    const openAddPost = () => {
+        addPostModal.current?.open();
     };
 
-    const onClose = () => {
-        modalizeRef.current?.close();
+    const closeAddPost = () => {
+        addPostModal.current?.close();
+    };
+
+    const openSendPost = () => {
+        sendPostModal.current?.open();
+    };
+
+    const closeSendPost = () => {
+        sendPostModal.current?.close();
     };
 
 
@@ -29,7 +40,7 @@ const Home = ({ navigation }) => {
                 <LogoPartner width={190} height={40} />
                 <View style={styles.headerBtns}>
                     <TouchableOpacity
-                        onPress={onOpen}
+                        onPress={openAddPost}
                         style={styles.createPost}
                     >
                         <Ionicons style={styles.messageIcon} name="add-outline" size={23} />
@@ -45,12 +56,15 @@ const Home = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
                 <UserRow />
+                <Feed openSendPost={openSendPost}/>
             </ScrollView>
 
 
-            {/* MODALE */}
+            {/* MODALES  */}
+
+            {/*ADD POST*/}
             <Modalize
-                ref={modalizeRef}
+                ref={addPostModal}
                 scrollViewProps={{ showsVerticalScrollIndicator: false }}
                 snapPoint={300}
                 adjustToContentHeight={true}
@@ -58,7 +72,7 @@ const Home = ({ navigation }) => {
                 HeaderComponent={
                     <View>
                         <TouchableOpacity
-                            onPress={onClose}
+                            onPress={closeAddPost}
                             style={styles.modalHeader}>
                             <View style={styles.barClose}></View>
                         </TouchableOpacity>
@@ -72,6 +86,37 @@ const Home = ({ navigation }) => {
                     <TextInput placeholder="Username" style={styles.textInput} />
                 </View>
             </Modalize>
+
+            {/*SEND POST*/}
+            <Modalize
+                ref={sendPostModal}
+                scrollViewProps={{ showsVerticalScrollIndicator: false }}
+                snapPoint={600}
+                adjustToContentHeight={true}
+                onScrollBeginDrag={false}
+                HeaderComponent={
+                    <View>
+                        <TouchableOpacity
+                            onPress={closeSendPost}
+                            style={styles.modalHeader}>
+                            <View style={styles.barClose}></View>
+                        </TouchableOpacity>
+                    </View>
+                }
+                withHandle={false}>
+                <ScrollView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.sendPostModal}>
+                    <Text style={styles.sendModalHeader}>Partager le Post</Text>
+                    <SendToUser/>
+                    <SendToUser/>
+                    <SendToUser/>
+                    <SendToUser/>
+                    <SendToUser/>
+                    <SendToUser/>
+                    <SendToUser/>
+                </ScrollView>
+            </Modalize>
         </SafeAreaView>
     );
 };
@@ -82,6 +127,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         textAlign: "center",
         position: "relative",
+        backgroundColor: colors.background,
     },
     homeHeader: {
         paddingHorizontal: 24,
@@ -135,6 +181,20 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingHorizontal: 24,
     },
+    sendPostModal:{
+        width: '100%',
+        maxHeight: 600,
+        paddingBottom: 16,
+        paddingHorizontal: 24,
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    sendModalHeader: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        width: '100%',
+    }
 });
 
 export default Home;

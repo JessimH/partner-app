@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         right: -2,
         top: 50,
         zIndex: 2,
-        backgroundColor: 'white',
+        backgroundColor: colors.background,
         borderRadius: 50,
         display: "flex",
         flexDirection: "row",

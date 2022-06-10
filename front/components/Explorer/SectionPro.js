@@ -12,13 +12,12 @@ const SectionPro = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 horizontal={true} style={styles.scrollSection}>
+                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
+                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
                 <UserCircle />
+                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
                 <UserCircle />
-                <UserCircle />
-                <UserCircle />
-                <UserCircle />
-                <UserCircle />
-                <UserCircle />
+                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
                 <UserCircle />
             </ScrollView>
         </View>

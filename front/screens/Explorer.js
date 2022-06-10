@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         textAlign: "left",
-        backgroundColor: '#fff',
+        backgroundColor: colors.background,
     },
     explorer_title: {
         paddingHorizontal: 24,

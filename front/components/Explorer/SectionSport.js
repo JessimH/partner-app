@@ -13,14 +13,14 @@ const SectionSport = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 horizontal={true} style={styles.scrollSection}>
-                <SportCircleWithText />
-                <SportCircleWithText />
-                <SportCircleWithText />
-                <SportCircleWithText />
-                <SportCircleWithText />
-                <SportCircleWithText />
-                <SportCircleWithText />
-                <SportCircleWithText />
+                <SportCircleWithText sportType={'⚽️'}/>
+                <SportCircleWithText sportType={'🏀️'}/>
+                <SportCircleWithText sportType={'⚽️'}/>
+                <SportCircleWithText sportType={'🎾️'}/>
+                <SportCircleWithText sportType={'🥊️'}/>
+                <SportCircleWithText sportType={'🏋️‍'}/>
+                <SportCircleWithText sportType={'🛼'}/>
+                <SportCircleWithText sportType={'⚽'}/>
             </ScrollView>
         </View>
     );

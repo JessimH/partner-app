@@ -7,6 +7,7 @@ import Home from "../screens/Home";
 import Notifications from "../screens/Notifications";
 import Map from "../screens/Map";
 import Messages from "../screens/Messages";
+import Comments from "../screens/Comments";
 import SearchTraining from "../screens/SearchTraining";
 import Explorer from "../screens/Explorer";
 import UserProfil from "../screens/UserProfil";
@@ -21,6 +22,7 @@ const HomeStackNavigator = () => {
             })}>
             <Stack.Screen name="StackHome" options={{ title: 'Accueil' }} component={Home} />
             <Stack.Screen name="Messages" component={Messages} />
+            <Stack.Screen name="Comments" component={Comments} />
         </Stack.Navigator>
     );
 }
