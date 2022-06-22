@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     SectionPro: {
         marginTop: 16,
         borderBottomWidth: 1,
-        borderColor: 'lightgray',
+        borderColor: '#f0f0f0',
     },
     sectionTitle: {
         paddingHorizontal: 24,

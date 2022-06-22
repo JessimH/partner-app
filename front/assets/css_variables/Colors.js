@@ -1,5 +1,6 @@
 const colors = {
     primary: '#00E2B7',
+    translu: '#dffef6',
     black: '#000000',
     secondary: '#FF0C7C',
     background: '#FBFCFE',
@@ -8,5 +9,6 @@ const colors = {
     blue: '#0085FF',
     noSto: '#BDBDBD'
 };
+const paddingHorizontal = 24;
 
 export default colors;

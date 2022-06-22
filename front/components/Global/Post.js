@@ -7,14 +7,20 @@ import SportCircle from "./SportCircle";
 
 const win = Dimensions.get('window');
 
-const Post = ({openSendPost, imagePost, sportPost, textPost, proHidden}) => {
+const Post = ({openSendPost, imagePost, sportPost, textPost, switchHidden}) => {
     const navigation = useNavigation();
 
     const [like, setLike] = useState(false);
+    const [hidden, setHidden] = useState(false);
 
     function LikeThisPost() {
         setLike(!like);
         console.log(like);
+    }
+
+    function HideThisPost() {
+        setHidden(!hidden);
+        console.log(hidden);
     }
 
     return (
@@ -31,6 +37,17 @@ const Post = ({openSendPost, imagePost, sportPost, textPost, proHidden}) => {
                     <Text style={styles.postUsername}>Username</Text>
                     <Text style={styles.postTimestamp}>Paris, France - il y a 10h </Text>
                 </View>
+                {hidden
+                    ? (<TouchableOpacity
+                        style={styles.btnSwitchHidden}
+                        onPress={HideThisPost}>
+                        <Ionicons  style={styles.btnIcon} name="lock-closed" color={colors.secondary} size={23} />
+                    </TouchableOpacity>)
+                    :(<TouchableOpacity
+                        style={styles.btnSwitchHidden}
+                        onPress={HideThisPost}>
+                        <Ionicons  style={styles.btnIcon} name="lock-open" color={colors.primary} size={23} />
+                    </TouchableOpacity>) }
             </View>
 
             {/*POST BODY*/}
@@ -87,6 +104,7 @@ const Post = ({openSendPost, imagePost, sportPost, textPost, proHidden}) => {
 const styles = StyleSheet.create({
     post:{
         marginTop: 24,
+        paddingHorizontal: 24,
     },
     postInfos:{
         width: "100%",
@@ -145,6 +163,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginRight: 16,
+        position: "relative",
+    },
+    btnSwitchHidden:{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifySelf: "flex-end",
+        position: "absolute",
+        right: 0,
     },
     btnIcon:{
         marginRight: 3,

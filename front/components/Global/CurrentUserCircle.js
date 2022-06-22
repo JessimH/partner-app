@@ -4,7 +4,7 @@ import colors from "../../assets/css_variables/Colors";
 import { Ionicons } from "@expo/vector-icons";
 // import { Camera, CameraType } from 'expo-camera';
 
-const CurrentUserCircle = ({ navigation }) => {
+const CurrentUserCircle = ({ navigation, isCurentUser }) => {
     return (
         <View style={styles.UserCircle}>
             <View style={[styles.UserPic_container, styles.noStory]}>
@@ -13,11 +13,12 @@ const CurrentUserCircle = ({ navigation }) => {
                     source={{ uri: 'https://images.unsplash.com/photo-1610737241336-371badac3b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }}
                 />
             </View>
-            <TouchableOpacity
-                style={styles.addStoBtn}>
-                <Ionicons style={styles.addStoryIcon} name="add-circle" size={23} />
-            </TouchableOpacity>
-            <Text numberOfLines={1} ellipsizeMode='tail' style={styles.userCircle_username}>Votre story</Text>
+            {isCurentUser && (
+                <TouchableOpacity
+                    style={styles.addStoBtn}>
+                    <Ionicons style={styles.addStoryIcon} name="add-circle" size={23} />
+                </TouchableOpacity>
+            )}
         </View>
     );
 };
@@ -57,8 +58,8 @@ const styles = StyleSheet.create({
     },
     addStoBtn: {
         position: "absolute",
-        right: -2,
         top: 50,
+        right: -4 ,
         zIndex: 2,
         backgroundColor: colors.background,
         borderRadius: 50,

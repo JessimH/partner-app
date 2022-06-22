@@ -120,6 +120,30 @@ const Map = ({ navigation }) => {
                                 <SportCircle sportType={'⚽️'}/>
                             </Marker>
 
+                            <Marker
+                                key={1}
+                                style={{ zIndex: 4 }}
+                                onPress={goToMarkerLocation}
+                                coordinate={{
+                                    latitude: location.coords.latitude + 0.009,
+                                    longitude: location.coords.longitude + 0.003,
+                                }}
+                            >
+                                <SportCircle sportType={'🏀'}/>
+                            </Marker>
+
+                            <Marker
+                                key={1}
+                                style={{ zIndex: 4 }}
+                                onPress={goToMarkerLocation}
+                                coordinate={{
+                                    latitude: location.coords.latitude - 0.009,
+                                    longitude: location.coords.longitude - 0.003,
+                                }}
+                            >
+                                <SportCircle sportType={'🎾'}/>
+                            </Marker>
+
                             {/*USER MARKER*/}
                             <Marker
                                 key={2}
@@ -142,10 +166,6 @@ const Map = ({ navigation }) => {
                 )
             }
             {/* MAPS BUTTON AND OVERLAY */}
-
-            <View style={styles.headerMap}>
-                <LogoPartner width={190} height={40} />
-            </View>
             <TouchableOpacity
                 onPress={() => navigation.navigate("SearchTraining")}
                 style={styles.btnSearch}

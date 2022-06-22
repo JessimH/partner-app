@@ -1,5 +1,4 @@
 // ./screens/About.js
-
 import React from "react";
 import {View, StyleSheet, Text, SafeAreaView, Plateform} from "react-native";
 

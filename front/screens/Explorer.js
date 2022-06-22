@@ -9,6 +9,7 @@ import SectionPro from '../components/Explorer/SectionPro';
 import SectionSport from '../components/Explorer/SectionSport';
 import SectionStories from '../components/Explorer/SectionStories';
 
+
 const Explorer = () => {
     return (
         <SafeAreaView style={styles.container}>

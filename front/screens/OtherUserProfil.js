@@ -9,13 +9,13 @@ import UserInfo from "../components/Global/UserInfo";
 import colors from "../assets/css_variables/Colors";
 import UserBio from "../components/Global/UserBio";
 
-const UserProfil = () => {
+const OtherUserProfil = () => {
     return (
         <SafeAreaView style={styles.center}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
-                <UserInfo isCurentUser={true} />
+                <UserInfo isCurentUser={false}/>
                 <UserBio />
                 <Feed profile={true}/>
             </ScrollView>
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UserProfil;
+export default OtherUserProfil;
