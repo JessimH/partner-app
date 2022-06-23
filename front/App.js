@@ -6,7 +6,7 @@ import {LoginStackNavigator} from "./navigation/LoginStackNavigator";
 import BottomTabNavigator from "./navigation/TabNavigator";
 
 const App = () => {
-    const connected = true
+    const connected = false
     return (
         <NavigationContainer>
             {connected

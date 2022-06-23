@@ -43,11 +43,12 @@ const Login = ({navigation}) => {
                     <TouchableOpacity style={styles.loginBtn}>
                         <Text style={styles.loginBtnTxt}>Connexion</Text>
                     </TouchableOpacity>
-                    <View>
-                        <Text>
+                    <View style={styles.registerLink}>
+                        <Text style={styles.registerLink_txt}>
                             déjà inscrit ?
                         </Text>
-                        <TouchableOpacity style={styles.registerBtn}>
+                        <TouchableOpacity style={styles.registerBtn}
+                                          onPress={() => navigation.navigate("StackRegister")}>
                             <Text style={styles.registerBtnTxt}>Inscrivez-vous !</Text>
                         </TouchableOpacity>
                     </View>
@@ -117,8 +118,23 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     registerBtn: {
-
-    }
+        marginLeft: 8,
+    },
+    registerBtnTxt: {
+        color: colors.primary,
+    },
+    registerLink: {
+        width: "100%",
+        justifyContent: "center",
+        marginTop: 64,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    registerLink_txt: {
+        color: colors.gray,
+        marginRight: 8,
+    },
 });
 
 export default Login;
