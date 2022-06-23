@@ -1,17 +1,28 @@
-import React, { useRef } from "react";
-import { View, Button, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, KeyboardAvoidingView, TextInput, Plateform } from "react-native";
+import React, {useRef} from "react";
+import {
+    View,
+    Button,
+    Text,
+    StyleSheet,
+    SafeAreaView,
+    TouchableOpacity,
+    Image,
+    KeyboardAvoidingView,
+    TextInput,
+    Plateform
+} from "react-native";
 import colors from '../assets/css_variables/Colors';
-import { Ionicons } from "@expo/vector-icons";
+import {Ionicons} from "@expo/vector-icons";
 import LogoPartner from '../assets/images/logoPartner.svg';
 
 // Modals
-import { Modalize } from 'react-native-modalize';
+import {Modalize} from 'react-native-modalize';
 import UserRow from "../components/Global/UserRow";
-import { ScrollView } from "react-native-gesture-handler";
+import {ScrollView} from "react-native-gesture-handler";
 import Feed from "../components/Global/Feed";
 import SendToUser from "../components/Global/SendToUser";
 
-const Home = ({ navigation }) => {
+const Home = ({navigation}) => {
 
     // ADD POST MODAL FUCTIONS
     const addPostModal = useRef(null);
@@ -37,35 +48,34 @@ const Home = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.center}>
             <View style={styles.homeHeader}>
-                <LogoPartner width={190} height={40} />
+                <LogoPartner width={190} height={40}/>
                 <View style={styles.headerBtns}>
                     <TouchableOpacity
                         onPress={openAddPost}
                         style={styles.createPost}
                     >
-                        <Ionicons style={styles.messageIcon} name="add-outline" size={23} />
+                        <Ionicons style={styles.messageIcon} name="add-outline" size={23}/>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => navigation.navigate("Messages")}
                     >
-                        <Ionicons style={styles.messageIcon} name="chatbubbles" size={30} />
+                        <Ionicons style={styles.messageIcon} name="chatbubbles" size={30}/>
                     </TouchableOpacity>
                 </View>
             </View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
-                <UserRow />
+                <UserRow/>
                 <Feed openSendPost={openSendPost}/>
             </ScrollView>
 
 
             {/* MODALES  */}
-
             {/*ADD POST*/}
             <Modalize
                 ref={addPostModal}
-                scrollViewProps={{ showsVerticalScrollIndicator: false }}
+                scrollViewProps={{showsVerticalScrollIndicator: false}}
                 snapPoint={300}
                 adjustToContentHeight={true}
                 onScrollBeginDrag={false}
@@ -83,14 +93,14 @@ const Home = ({ navigation }) => {
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={styles.addPostModal}>
                     <Text>Formulaire Add Post</Text>
-                    <TextInput placeholder="Username" style={styles.textInput} />
+                    <TextInput placeholder="Username" style={styles.textInput}/>
                 </View>
             </Modalize>
 
             {/*SEND POST*/}
             <Modalize
                 ref={sendPostModal}
-                scrollViewProps={{ showsVerticalScrollIndicator: false }}
+                scrollViewProps={{showsVerticalScrollIndicator: false}}
                 snapPoint={600}
                 adjustToContentHeight={true}
                 onScrollBeginDrag={false}
@@ -123,7 +133,7 @@ const Home = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     center: {
-        paddingTop: Plateform === 'ios' ? 0: 40,
+        paddingTop: Plateform === 'ios' ? 0 : 40,
         flex: 1,
         alignItems: "center",
         textAlign: "center",
@@ -182,7 +192,7 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingHorizontal: 24,
     },
-    sendPostModal:{
+    sendPostModal: {
         width: '100%',
         maxHeight: 600,
         paddingBottom: 16,

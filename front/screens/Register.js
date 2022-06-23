@@ -16,11 +16,19 @@ import LogoPartner from '../assets/images/logoPartner.svg';
 import {Ionicons} from "@expo/vector-icons";
 import ToggleSwitch from 'toggle-switch-react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import {Modalize} from 'react-native-modalize';
+import * as ImagePicker from 'expo-image-picker';
 
 const win = Dimensions.get('window');
 
 const Register = ({navigation}) => {
+    const addPicModal = useRef(null);
+    const openAddPic = () => {
+        addPicModal.current?.open();
+    };
+    const closeAddPic = () => {
+        addPicModal.current?.close();
+    };
 
     const [isChecked, setIsChecked] = useState(false);
 
@@ -39,16 +47,63 @@ const Register = ({navigation}) => {
     ]);
 
     DropDownPicker.addTranslation("FR", {
-        PLACEHOLDER: "Selectionne le ou les sport que tu préfère !",
+        PLACEHOLDER: "Selectionne le ou les sports que tu préfère !",
         SEARCH_PLACEHOLDER: "Chercher un sport....",
         SELECTED_ITEMS_COUNT_TEXT: "{count} sports sélectionné(s)", // See below for advanced options
         NOTHING_TO_SHOW: "Aucun résultat",
     });
 
-    const profilPic = true
-
-// Set as default
+    // Set as default
     DropDownPicker.setLanguage("FR");
+
+    const [profilPic, setProfilPic] = useState(null);
+
+    const pickImageFromLibrary = async () => {
+        // Ask the user for the permission to access the media library
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            alert("Attention, vous n'avez pas autorisé l'accès à votre bibliothèque de photos !");
+            return;
+        }
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            setProfilPic(result.uri);
+        }
+    }
+
+    const pickImageFromCamera = async () => {
+        // Ask the user for the permission to access the camera
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            alert("Attention, vous n'avez pas autorisé l'accès à votre appareil photo !");
+            return;
+        }
+
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            setProfilPic(result.uri);
+        }
+    }
+
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.center}>
@@ -56,18 +111,20 @@ const Register = ({navigation}) => {
                 <LogoPartner style={styles.logo} width={190} height={100}/>
                 <View stylle={styles.loginForm}>
                     <View style={styles.addPic}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={openAddPic}>
                             <View style={styles.UserPic_container}>
                                 {profilPic
                                     ? (<Image
-                                        style={styles.userCircle_pic}
-                                        source={{uri: 'https://images.unsplash.com/photo-1610737241336-371badac3b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'}}
-                                    />)
+                                            style={styles.userCircle_pic}
+                                            source={{uri: profilPic}}
+                                        />
+                                    )
                                     : (
-                                       <Image
-                                           style={styles.userCircle_pic}
-                                           source={{uri: 'https://exoffender.org/wp-content/uploads/2016/09/empty-profile.png'}}
-                                       />
+                                        <Image
+                                            style={styles.userCircle_pic}
+                                            source={{uri: 'https://exoffender.org/wp-content/uploads/2016/09/empty-profile.png'}}
+                                        />
                                     )
                                 }
                                 {!profilPic && (<Ionicons style={styles.addIcon} name="add-outline" size={40}/>)}
@@ -100,7 +157,7 @@ const Register = ({navigation}) => {
                             underlineColorAndroid="transparent"
                         />
                     </View>
-                    <Text style={styles.inputLabel}>Choisis les sport que tu pratiques ! *</Text>
+                    <Text style={styles.inputLabel}>Choisis les sports que tu pratiques ! *</Text>
                     <DropDownPicker
                         style={{
                             backgroundColor: "#FAFAFA",
@@ -167,6 +224,37 @@ const Register = ({navigation}) => {
                     </View>
                 </View>
             </View>
+
+            {/*ADD PIC MODAL*/}
+            <Modalize
+                ref={addPicModal}
+                scrollViewProps={{showsVerticalScrollIndicator: false}}
+                snapPoint={300}
+                adjustToContentHeight={true}
+                onScrollBeginDrag={false}
+                HeaderComponent={
+                    <View>
+                        <TouchableOpacity
+                            onPress={closeAddPic}
+                            style={styles.modalHeader}>
+                            <View style={styles.barClose}></View>
+                        </TouchableOpacity>
+                    </View>
+                }
+                withHandle={false}>
+                <View
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.addPostModal}>
+                    <TouchableOpacity style={styles.btnPicContainer}
+                                      onPress={pickImageFromLibrary}>
+                        <Ionicons style={styles.btnPic} name="image-outline" size={30}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btnPicContainer}
+                                      onPress={pickImageFromCamera}>
+                        <Ionicons style={styles.btnPic} name="camera-outline" size={30}/>
+                    </TouchableOpacity>
+                </View>
+            </Modalize>
         </KeyboardAvoidingView>
     );
 };
@@ -281,6 +369,43 @@ const styles = StyleSheet.create({
         top: 26,
         left: 26,
         color: "white",
+    },
+    modalHeader: {
+        padding: 10,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    barClose: {
+        width: '50%',
+        height: 5,
+        borderRadius: 50,
+        backgroundColor: colors.noSto,
+    },
+    addPostModal: {
+        width: '100%',
+        height: 200,
+        paddingHorizontal: 24,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    btnPicContainer: {
+        marginTop: -16,
+        width: '30%',
+        height: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.translu,
+        borderRadius: 8,
+
+    },
+    btnPic: {
+        color: colors.primary,
     }
 });
 
