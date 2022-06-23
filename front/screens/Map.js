@@ -92,6 +92,12 @@ const Map = ({ navigation }) => {
         modalizeRef.current?.close();
     };
 
+    const addSession = (event) => {
+        let coordinate = event.nativeEvent.coordinate
+        console.log(coordinate)
+        openAddSeance();
+    }
+
 
     return (
         <SafeAreaView style={styles.center}>
@@ -107,7 +113,8 @@ const Map = ({ navigation }) => {
                                 "longitude": location.coords.longitude,
                                 "latitudeDelta": 0.03,
                                 "longitudeDelta": 0.03,
-                            }}>
+                            }}
+                            onLongPress={ (event) => {addSession(event)} }>
                             <Marker
                                 key={1}
                                 style={{ zIndex: 4 }}
@@ -239,10 +246,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'absolute',
         backgroundColor: colors.background,
+        bottom: 92,
+        right: 24,
         height: 40,
         width: 40,
-        bottom: 159,
-        right: 24,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.35,
@@ -269,24 +276,6 @@ const styles = StyleSheet.create({
     },
     centerOnUserIcon: {
         color: colors.primary
-    },
-    createSceance: {
-        position: 'absolute',
-        bottom: 92,
-        right: 24,
-        height: 40,
-        width: 40,
-        paddingLeft: 3,
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 10,
-        backgroundColor: colors.background,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 3,
     },
     messageIcon: {
         color: colors.primary

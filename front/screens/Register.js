@@ -22,6 +22,12 @@ import * as ImagePicker from 'expo-image-picker';
 const win = Dimensions.get('window');
 
 const Register = ({navigation}) => {
+    const [showPass, setShowPass] = useState(false);
+
+    const toggleShowPass = () => {
+        setShowPass(!showPass);
+    }
+
     const addPicModal = useRef(null);
     const openAddPic = () => {
         addPicModal.current?.open();
@@ -69,8 +75,6 @@ const Register = ({navigation}) => {
 
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
             quality: 1,
         });
 
@@ -92,8 +96,6 @@ const Register = ({navigation}) => {
 
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
             quality: 1,
         });
 
@@ -133,6 +135,7 @@ const Register = ({navigation}) => {
                     </View>
                     <View style={styles.inputLogin}>
                         <TextInput
+                            autoFocus={true}
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Nom d'utilisateur *"
@@ -142,6 +145,7 @@ const Register = ({navigation}) => {
                     <View style={styles.inputLogin}>
                         <TextInput
                             style={styles.input}
+                            keyboardType="email-address"
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Email *"
                             underlineColorAndroid="transparent"
@@ -152,10 +156,15 @@ const Register = ({navigation}) => {
                         <TextInput
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
-                            secureTextEntry={true}
+                            secureTextEntry={showPass}
                             placeholder="Mot de passe *"
                             underlineColorAndroid="transparent"
                         />
+                        <TouchableOpacity
+                            style={styles.showPass}
+                            onPress={toggleShowPass}>
+                            <Ionicons style={styles.iconEye} name={showPass ? "eye-outline" : "eye-off-outline"} size={20}/>
+                        </TouchableOpacity>
                     </View>
                     <Text style={styles.inputLabel}>Choisis les sports que tu pratiques ! *</Text>
                     <DropDownPicker
@@ -406,6 +415,13 @@ const styles = StyleSheet.create({
     },
     btnPic: {
         color: colors.primary,
+    },
+    showPass:{
+        position: "absolute",
+        right: 16,
+    },
+    iconEye:{
+        color: colors.gray,
     }
 });
 

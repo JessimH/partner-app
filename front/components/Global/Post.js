@@ -37,6 +37,10 @@ const Post = ({openSendPost, imagePost, sportPost, textPost, switchHidden}) => {
                     <Text style={styles.postUsername}>Username</Text>
                     <Text style={styles.postTimestamp}>Paris, France - il y a 10h </Text>
                 </View>
+                <TouchableOpacity
+                    style={styles.btnActions}>
+                    <Ionicons  style={styles.btnIcon} name="ellipsis-horizontal" color={colors.black} size={23} />
+                </TouchableOpacity>
                 {hidden
                     ? (<TouchableOpacity
                         style={styles.btnSwitchHidden}
@@ -172,6 +176,14 @@ const styles = StyleSheet.create({
         justifySelf: "flex-end",
         position: "absolute",
         right: 0,
+    },
+    btnActions:{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifySelf: "flex-end",
+        position: "absolute",
+        right: 24,
     },
     btnIcon:{
         marginRight: 3,
