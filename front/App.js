@@ -5,6 +5,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import {LoginStackNavigator} from "./navigation/LoginStackNavigator";
 import BottomTabNavigator from "./navigation/TabNavigator";
 
+
 const App = () => {
     const connected = true
     return (

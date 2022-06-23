@@ -135,7 +135,7 @@ const Register = ({navigation}) => {
                     </View>
                     <View style={styles.inputLogin}>
                         <TextInput
-                            autoFocus={true}
+                            /*autoFocus={true}*/
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Nom d'utilisateur *"

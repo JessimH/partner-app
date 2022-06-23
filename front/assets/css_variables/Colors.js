@@ -2,7 +2,7 @@ const colors = {
     primary: '#00E2B7',
     translu: '#dffef6',
     black: '#000000',
-    secondary: '#FF0C7C',
+    secondary: '#ff2c7a',
     background: '#FBFCFE',
     gray: '#999999',
     red: '#FF4655',

@@ -33,7 +33,7 @@ const Login = ({navigation}) => {
                     <View style={styles.inputLogin}>
                         <TextInput
                             style={styles.input}
-                            autoFocus={true}
+                            /*autoFocus={true}*/
                             keyboardType="default"
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Username *"
