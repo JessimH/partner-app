@@ -21,6 +21,7 @@ import MapView from 'react-native-maps'
 import { Modalize } from 'react-native-modalize';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../assets/css_variables/Colors";
@@ -75,6 +76,13 @@ const Map = ({ navigation }) => {
     }, []);
 
 
+
+    let coords = null
+    let addSessionlat = null
+    let addSessionlong = null
+
+    let text = 'Waiting..';
+
     function showDatePicker() {
         setDatePicker(!datePicker);
     };
@@ -106,8 +114,6 @@ const Map = ({ navigation }) => {
     DropDownPicker.setLanguage("FR");
 
 
-    let text = 'Waiting..';
-
     if (errorMsg) {
         text = errorMsg;
     } else if (location) {
@@ -120,7 +126,8 @@ const Map = ({ navigation }) => {
             center: {
                 "latitude": location.coords.latitude,
                 "longitude": location.coords.longitude
-            }
+            },
+            altitude: 500
         });
     }
 
@@ -132,7 +139,8 @@ const Map = ({ navigation }) => {
             center: {
                 "latitude": markerLatitude,
                 "longitude": markerLongitude
-            }
+            },
+            altitude: 500
         });
     }
 
@@ -154,9 +162,6 @@ const Map = ({ navigation }) => {
         modalizeRefAddBtn.current?.close();
     };
 
-    let coords = null
-    let addSessionlat = null
-    let addSessionlong = null
 
     const CheckIfLocationEnabled = async () => {
         let enabled = await Location.hasServicesEnabledAsync();
@@ -213,6 +218,10 @@ const Map = ({ navigation }) => {
 
     const sendSessionToDb = () => {
         console.log("Post sent to DB");
+        Toast.show({
+            type: 'success',
+            text1: 'Votre séance a bien été ajoutée ! 🎉',
+        });
         closeAddSeance()
         setTimePicker(false);
         setDatePicker(false);
@@ -464,8 +473,9 @@ const Map = ({ navigation }) => {
             <Modalize
                 ref={modalizeRefAddBtn}
                 scrollViewProps={{ showsVerticalScrollIndicator: false }}
-                snapPoint={900}
                 onScrollBeginDrag={false}
+                withHandle={false}
+                snapPoint={900}
                 modalHeight={win.height * 0.85}
                 keyboardAvoidingBehavior={null}
                 HeaderComponent={
@@ -476,7 +486,7 @@ const Map = ({ navigation }) => {
                             <View style={styles.barClose}></View>
                         </TouchableOpacity>
                     </View>
-                }
+                }x
                 FooterComponent={
                     <View>
                         <TouchableOpacity style={styles.confirmPost}
@@ -488,7 +498,7 @@ const Map = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 }
-                withHandle={false}>
+                >
                 <ScrollView
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={styles.addSceanceModal}>
@@ -694,7 +704,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     barClose: {
         width: '50%',

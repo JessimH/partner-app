@@ -14,10 +14,43 @@ import {
 import colors from '../assets/css_variables/Colors';
 import LogoPartner from '../assets/images/logoPartner.svg';
 import {Ionicons} from "@expo/vector-icons";
+import LottieView from 'lottie-react-native';
 
+import axios from 'axios';
+
+
+const baseUrl = 'https://partnerapi.herokuapp.com/api';
 const win = Dimensions.get('window');
 
 const Login = ({navigation}) => {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const onSubmitLogin = async (event) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(`${baseUrl}/auth/login`, {
+                username,
+                password,
+            });
+            if (response.status === 200) {
+                setIsLoading(false);
+                setUsername('');
+                setPassword('');
+                console.log(JSON.stringify(response.data))
+                return response.data
+            } else {
+                throw new Error("Bad status");
+            }
+        } catch (error) {
+            console.log(error);
+            alert("Mauvaise Url", error);
+            setIsLoading(false);
+        }
+    };
+
 
     const [showPass, setShowPass] = useState(false);
 
@@ -37,7 +70,9 @@ const Login = ({navigation}) => {
                             keyboardType="default"
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Username *"
+                            editable={!isLoading}
                             underlineColorAndroid="transparent"
+                            onChangeText={(text) => setUsername(text)}
                         />
                     </View>
                     <View style={styles.inputLogin}>
@@ -45,7 +80,10 @@ const Login = ({navigation}) => {
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Mot de passe *"
+                            axLength={10}
+                            editable={!isLoading}
                             secureTextEntry={showPass}
+                            onChangeText={(text) => setPassword(text)}
                             underlineColorAndroid="transparent"
                         />
                         <TouchableOpacity
@@ -54,8 +92,14 @@ const Login = ({navigation}) => {
                             <Ionicons style={styles.iconEye} name={showPass ? "eye-outline" : "eye-off-outline"} size={20}/>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.loginBtn}>
-                        <Text style={styles.loginBtnTxt}>Connexion</Text>
+                    <TouchableOpacity style={styles.loginBtn} onPress={onSubmitLogin}>
+                        {!isLoading && (<Text style={styles.loginBtnTxt}>Connexion</Text>)}
+                        {isLoading && (<LottieView
+                            autoPlay
+                            loop={true}
+                            style={styles.LottieUserLocation}
+                            source={require('../assets/lotties/loading.json')}
+                        />)}
                     </TouchableOpacity>
                     <View style={styles.registerLink}>
                         <Text style={styles.registerLink_txt}>
@@ -116,6 +160,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     loginBtn: {
+        position: "relative",
         marginTop: 16,
         width: "100%",
         backgroundColor: colors.primary,
@@ -155,7 +200,12 @@ const styles = StyleSheet.create({
     },
     iconEye:{
         color: colors.gray,
-    }
+    },
+    LottieUserLocation: {
+        position: "absolute",
+        width: 90,
+        height: 90,
+    },
 
 });
 

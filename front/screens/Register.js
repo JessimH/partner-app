@@ -18,6 +18,10 @@ import ToggleSwitch from 'toggle-switch-react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Modalize} from 'react-native-modalize';
 import * as ImagePicker from 'expo-image-picker';
+import axios from "axios";
+import LottieView from 'lottie-react-native';
+
+const baseUrl = 'https://partnerapi.herokuapp.com/api';
 
 const win = Dimensions.get('window');
 
@@ -36,14 +40,12 @@ const Register = ({navigation}) => {
         addPicModal.current?.close();
     };
 
-    const [isChecked, setIsChecked] = useState(false);
 
     const toggleSwitch = () => {
         setIsChecked(!isChecked);
     }
 
     const [openSelect, setOpenSelect] = useState(false);
-    const [valueSelect, setValueSelect] = useState([]);
     const [sportSelect, setSportSelect] = useState([
         {label: '⚽️ Football', value: 'Football'},
         {label: '🏀 Basket', value: 'Basket'},
@@ -61,8 +63,6 @@ const Register = ({navigation}) => {
 
     // Set as default
     DropDownPicker.setLanguage("FR");
-
-    const [profilPic, setProfilPic] = useState(null);
 
     const pickImageFromLibrary = async () => {
         // Ask the user for the permission to access the media library
@@ -83,6 +83,7 @@ const Register = ({navigation}) => {
         if (!result.cancelled) {
             setProfilPic(result.uri);
         }
+        closeAddPic();
     }
 
     const pickImageFromCamera = async () => {
@@ -104,8 +105,47 @@ const Register = ({navigation}) => {
         if (!result.cancelled) {
             setProfilPic(result.uri);
         }
+        closeAddPic();
     }
 
+    /*REGISTER*/
+    const [isLoading, setIsLoading] = useState(false);
+    const [username, setUsername] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [valueSelect, setValueSelect] = useState([]);
+    const [isChecked, setIsChecked] = useState(false);
+    const [profilPic, setProfilPic] = useState(null);
+
+    const form =  {
+        email,
+        username,
+        password,
+        'sports': valueSelect,
+        'is_pro': isChecked,
+        'profile_picture': profilPic
+    }
+
+    const handleRegister = async (event) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(`${baseUrl}/auth/register`, form);
+            if (response.status === 201) {
+                setIsLoading(false);
+                setUsername('');
+                setPassword('');
+                console.log(JSON.stringify(response.data))
+                return response.data
+            } else {
+                throw new Error("Bad status");
+            }
+        } catch (error) {
+            console.log(error);
+            alert("Mauvaise Url", error);
+            setIsLoading(false);
+        }
+
+    };
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.center}>
@@ -139,6 +179,8 @@ const Register = ({navigation}) => {
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Nom d'utilisateur *"
+                            onChangeText={(text) => setUsername(text)}
+                            editable={!isLoading}
                             underlineColorAndroid="transparent"
                         />
                     </View>
@@ -148,6 +190,8 @@ const Register = ({navigation}) => {
                             keyboardType="email-address"
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Email *"
+                            onChangeText={(text) => setEmail(text)}
+                            editable={!isLoading}
                             underlineColorAndroid="transparent"
                         />
                     </View>
@@ -158,15 +202,19 @@ const Register = ({navigation}) => {
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             secureTextEntry={showPass}
                             placeholder="Mot de passe *"
+                            onChangeText={(text) => setPassword(text)}
+                            maxLength={10}
+                            editable={!isLoading}
                             underlineColorAndroid="transparent"
                         />
                         <TouchableOpacity
                             style={styles.showPass}
                             onPress={toggleShowPass}>
-                            <Ionicons style={styles.iconEye} name={showPass ? "eye-outline" : "eye-off-outline"} size={20}/>
+                            <Ionicons style={styles.iconEye} name={showPass ? "eye-outline" : "eye-off-outline"}
+                                      size={20}/>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.inputLabel}>Choisis les sports que tu pratiques ! *</Text>
+                    <Text style={styles.inputLabel}>Choisis les sports que tu pratiques ! 💪</Text>
                     <DropDownPicker
                         style={{
                             backgroundColor: "#FAFAFA",
@@ -214,13 +262,20 @@ const Register = ({navigation}) => {
                         isOn={isChecked}
                         onColor={colors.primary}
                         offColor={colors.secondary}
-                        label="Êtes-vous un professionnel ?"
+                        label="Êtes-vous coach ou professionnel ? 🔥"
                         size="medium"
                         labelStyle={{color: "black", fontWeight: "800"}}
                         onToggle={toggleSwitch}
                     />
-                    <TouchableOpacity style={styles.loginBtn}>
-                        <Text style={styles.loginBtnTxt}>S'inscrire</Text>
+                    <TouchableOpacity style={styles.loginBtn}
+                                      onPress={handleRegister}>
+                        {!isLoading && (<Text style={styles.loginBtnTxt}>S'inscrire</Text>)}
+                        {isLoading && (<LottieView
+                            autoPlay
+                            loop={true}
+                            style={styles.LottieUserLocation}
+                            source={require('../assets/lotties/loading.json')}
+                        />)}
                     </TouchableOpacity>
                     <View style={styles.registerLink}>
                         <Text style={styles.registerLink_txt}>
@@ -416,11 +471,11 @@ const styles = StyleSheet.create({
     btnPic: {
         color: colors.primary,
     },
-    showPass:{
+    showPass: {
         position: "absolute",
         right: 16,
     },
-    iconEye:{
+    iconEye: {
         color: colors.gray,
     }
 });

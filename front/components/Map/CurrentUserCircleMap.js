@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         position: "relative",
-        // shadowColor: '#00E2B7',
-        // shadowOffset: { width: 0, height: 0 },
-        // shadowOpacity: 1,
-        // shadowRadius: 5,
     },
     userCircle_pic: {
         height: 45,
