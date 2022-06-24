@@ -35,7 +35,7 @@ const App = () => {
         ),
     };
 
-    const connected = false
+    const connected = true
     return (
             <NavigationContainer>
                 {connected
