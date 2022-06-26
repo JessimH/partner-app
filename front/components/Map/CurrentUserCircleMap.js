@@ -24,6 +24,7 @@ const CurrentUserCircleMap = () => {
 
 const styles = StyleSheet.create({
     UserCircle: {
+        zIndex: 6,
         marginLeft: 16,
         display: "flex",
         flexDirection: "column",

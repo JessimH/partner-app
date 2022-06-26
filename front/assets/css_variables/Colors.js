@@ -7,7 +7,7 @@ const colors = {
     gray: '#999999',
     red: '#FF4655',
     blue: '#0085FF',
-    noSto: '#BDBDBD'
+    noSto: '#e6e6e6'
 };
 const paddingHorizontal = 24;
 

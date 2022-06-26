@@ -24,6 +24,7 @@ import Feed from "../components/Global/Feed";
 import SendToUser from "../components/Global/SendToUser";
 import PostForm from "../components/Global/PostForm";
 import { useScrollToTop } from '@react-navigation/native';
+import {Touchable} from "react-native-web";
 
 const win = Dimensions.get('window');
 
@@ -33,6 +34,7 @@ const Home = ({navigation}) => {
 
     // ADD POST MODAL FUCTIONS
     const sendPostModal = useRef(null);
+    const actionPostModal = useRef(null);
 
     const openSendPost = () => {
         sendPostModal.current?.open();
@@ -40,6 +42,13 @@ const Home = ({navigation}) => {
 
     const closeSendPost = () => {
         sendPostModal.current?.close();
+    };
+
+    const openActionModal = () => {
+        actionPostModal.current?.open();
+    };
+    const closeActionModal = () => {
+        actionPostModal.current?.close();
     };
 
     return (
@@ -58,9 +67,11 @@ const Home = ({navigation}) => {
                 ref={homeRef}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
-                {/*<UserRow openSendPost={openSendPost}/>*/}
                 <PostForm />
-                <Feed openSendPost={openSendPost}/>
+                <Feed openSendPost={openSendPost}
+                      openAction odal={openActionModal}
+                      profile={false}
+                />
             </ScrollView>
 
             {/*SEND POST*/}
@@ -83,7 +94,7 @@ const Home = ({navigation}) => {
                 <ScrollView
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={styles.sendPostModal}>
-                    <Text style={styles.sendModalHeader}>Partager le Post</Text>
+                    <Text style={styles.formTitle}>Avec qui partager ceci ? 🤔</Text>
                     <SendToUser/>
                     <SendToUser/>
                     <SendToUser/>
@@ -91,6 +102,45 @@ const Home = ({navigation}) => {
                     <SendToUser/>
                     <SendToUser/>
                     <SendToUser/>
+                </ScrollView>
+            </Modalize>
+
+            <Modalize
+                ref={actionPostModal}
+                scrollViewProps={{showsVerticalScrollIndicator: false}}
+                snapPoint={600}
+                adjustToContentHeight={true}
+                onScrollBeginDrag={false}
+                HeaderComponent={
+                    <View>
+                        <TouchableOpacity
+                            onPress={closeActionModal}
+                            style={styles.modalHeader}>
+                            <View style={styles.barClose}></View>
+                        </TouchableOpacity>
+                    </View>
+                }
+                withHandle={false}>
+                <ScrollView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.sendPostModal}>
+                    {/*IF USER POST */}
+                    <TouchableOpacity style={styles.actionsBtnOnPost}>
+                        <Text style={styles.textProblem}>Supprimer le post</Text>
+                    </TouchableOpacity>
+
+                    {/*IF NOT*/}
+                    <TouchableOpacity style={styles.actionsBtnOnPost}>
+                        <Text style={styles.textProblem}>Signaler</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.actionsBtnOnPost}>
+                        <Text>Se désabonner</Text>
+                    </TouchableOpacity>
+
+                    {/*IF USER POST & USER IS PRO*/}
+                    <TouchableOpacity style={styles.actionsBtnOnPost}>
+                        <Text>Ne montrer ceci qu'à mes abonnés</Text>
+                    </TouchableOpacity>
                 </ScrollView>
             </Modalize>
         </SafeAreaView>
@@ -166,6 +216,32 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '100%',
     },
+    formTitle:{
+        width: '100%',
+        textAlign: 'center',
+        fontWeight: "800",
+        fontSize: 18,
+        marginBottom: 16,
+    },
+    btnActionModal:{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    actionsBtnOnPost:{
+        backgroundColor: colors.noSto,
+        width: '100%',
+        height: 40,
+        borderRadius: 8,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 16,
+    },
+    textProblem:{
+        color: "red",
+    }
 
 });
 

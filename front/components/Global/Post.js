@@ -7,8 +7,9 @@ import SportCircle from "./SportCircle";
 
 const win = Dimensions.get('window');
 
-const Post = ({openSendPost, imagePost, sportPost, textPost, switchHidden}) => {
+const Post = ({openSendPost, commentPage, openActionModal, imagePost, sportPost, textPost, switchHidden}) => {
     const navigation = useNavigation();
+
 
     const [like, setLike] = useState(false);
     const [hidden, setHidden] = useState(false);
@@ -38,20 +39,10 @@ const Post = ({openSendPost, imagePost, sportPost, textPost, switchHidden}) => {
                     <Text style={styles.postTimestamp}>Paris, France - il y a 10h </Text>
                 </View>
                 <TouchableOpacity
-                    style={styles.btnActions}>
+                    style={styles.btnActions}
+                    onPress={openActionModal}>
                     <Ionicons  style={styles.btnIcon} name="ellipsis-horizontal" color={colors.black} size={23} />
                 </TouchableOpacity>
-                {hidden
-                    ? (<TouchableOpacity
-                        style={styles.btnSwitchHidden}
-                        onPress={HideThisPost}>
-                        <Ionicons  style={styles.btnIcon} name="lock-closed" color={colors.secondary} size={23} />
-                    </TouchableOpacity>)
-                    :(<TouchableOpacity
-                        style={styles.btnSwitchHidden}
-                        onPress={HideThisPost}>
-                        <Ionicons  style={styles.btnIcon} name="lock-open" color={colors.primary} size={23} />
-                    </TouchableOpacity>) }
             </View>
 
             {/*POST BODY*/}
@@ -74,8 +65,7 @@ const Post = ({openSendPost, imagePost, sportPost, textPost, switchHidden}) => {
                 <SportCircle sportType={sportPost}/>
                 <View style={styles.postSportBody}>
                     <Text style={styles.postSport_title}>
-                        Je viens de créer une séance pour demain à 18h
-                        rejoignez moi !</Text>
+                        Je viens de créer une séance pour demain à 18h !</Text>
                     <TouchableOpacity style={styles.btnPostSport}>
                         <Text style={styles.btnPostSportText}>Rejoindre</Text>
                         <Ionicons style={styles.btnIcon} name="arrow-forward" color={colors.secondary} size={20} />
@@ -84,12 +74,12 @@ const Post = ({openSendPost, imagePost, sportPost, textPost, switchHidden}) => {
             </View>)}
 
             {!sportPost && (<View style={styles.postBtns}>
-                <TouchableOpacity
+                {!commentPage && ( <TouchableOpacity
                     style={styles.btnPost}
                     onPress={() => navigation.navigate("Comments")}>
                     <Ionicons  style={styles.btnIcon} name="chatbubble-outline" size={27} />
                     <Text  style={styles.btnText}>20</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>)}
                 <TouchableOpacity
                     style={styles.btnPost}
                     onPress={LikeThisPost}>
@@ -183,7 +173,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifySelf: "flex-end",
         position: "absolute",
-        right: 24,
+        right: 0,
     },
     btnIcon:{
         marginRight: 3,

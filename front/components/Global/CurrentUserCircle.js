@@ -13,12 +13,12 @@ const CurrentUserCircle = ({ navigation, isCurentUser }) => {
                     source={{ uri: 'https://images.unsplash.com/photo-1610737241336-371badac3b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }}
                 />
             </View>
-            {isCurentUser && (
+            {/*{isCurentUser && (
                 <TouchableOpacity
                     style={styles.addStoBtn}>
                     <Ionicons style={styles.addStoryIcon} name="add-circle" size={23} />
                 </TouchableOpacity>
-            )}
+            )}*/}
         </View>
     );
 };

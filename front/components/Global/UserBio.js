@@ -6,7 +6,6 @@ import SportTag from "./SportTag";
 const UserBio = ({ navigation, sportTexte }) => {
     return (
         <View style={styles.userBio}>
-            <Text style={styles.userName}>Jessh-94</Text>
             <Text style={styles.userBioText}>La boxe n’est pas qu’un sport, c’est un mode de vie.</Text>
             <View style={styles.userInfosSports}>
                 <SportTag sportTexte={'🥊 Boxe'}/>

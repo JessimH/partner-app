@@ -34,9 +34,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingBottom: 8,
-        borderBottomWidth: 1,
-        borderColor: '#f0f0f0',
+        paddingBottom: 0,
     },
     userInfosText:{
         paddingLeft: 16,

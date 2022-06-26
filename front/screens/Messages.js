@@ -3,11 +3,15 @@
 import React from "react";
 import {View, StyleSheet, Text, SafeAreaView, Plateform} from "react-native";
 import colors from "../assets/css_variables/Colors";
+import ScreenHeader from "../components/Global/ScreenHeader";
 
-const Messages = () => {
+const Messages = ({navigation: {goBack}}) => {
     return (
         <SafeAreaView style={styles.center}>
-            <Text>This is the Messages screen</Text>
+            <ScreenHeader goBack={goBack}
+                          messageScreen={true}
+                          title="Messages"
+            />
         </SafeAreaView>
     );
 };

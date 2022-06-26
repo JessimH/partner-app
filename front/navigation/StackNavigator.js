@@ -68,6 +68,7 @@ const UserProfilStackNavigator = () => {
                 headerShown: false,
             })}>
             <Stack.Screen name="UserProfil" component={UserProfil} />
+            <Stack.Screen name="Comments" component={Comments} />
         </Stack.Navigator>
     );
 }

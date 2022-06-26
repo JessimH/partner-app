@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import {
     View,
     Button,
@@ -26,7 +26,27 @@ const baseUrl = 'https://partnerapi.herokuapp.com/api';
 const win = Dimensions.get('window');
 
 const Register = ({navigation}) => {
+    useEffect(() => {
+        console.log("register page");
+        function makeGetRequest(path) {
+            axios.get(path).then(
+                (response) => {
+                    let result = response.data;
+                    setSportSelect(result);
+                    setDataFromGet(JSON.stringify(result));
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        }
+        makeGetRequest(`${baseUrl}/sports`);
+    }, [])
+
     const [showPass, setShowPass] = useState(false);
+
+    const [dataFromGet, setDataFromGet] = useState(null);
+
 
     const toggleShowPass = () => {
         setShowPass(!showPass);
@@ -46,13 +66,10 @@ const Register = ({navigation}) => {
     }
 
     const [openSelect, setOpenSelect] = useState(false);
-    const [sportSelect, setSportSelect] = useState([
-        {label: '⚽️ Football', value: 'Football'},
-        {label: '🏀 Basket', value: 'Basket'},
-        {label: '🎾 Tennis', value: 'tennis'},
-        {label: '🥊 Boxe', value: 'Boxe'},
-        {label: '🏃🏻‍♂️ Running', value: 'Running'},
-    ]);
+    const [sportSelect, setSportSelect] = useState([]);
+    // if(dataFromGet) {
+    //     setSportSelect(dataFromGet)
+    // }
 
     DropDownPicker.addTranslation("FR", {
         PLACEHOLDER: "Selectionne le ou les sports que tu préfère !",
@@ -148,7 +165,7 @@ const Register = ({navigation}) => {
     };
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={styles.center}>
+        <KeyboardAvoidingView behavior="padding" style={styles.center} >
             <View style={styles.loginContainer}>
                 <LogoPartner style={styles.logo} width={190} height={100}/>
                 <View stylle={styles.loginForm}>

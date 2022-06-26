@@ -127,7 +127,7 @@ const Map = ({ navigation }) => {
                 "latitude": location.coords.latitude,
                 "longitude": location.coords.longitude
             },
-            altitude: 500
+            altitude: 1500
         });
     }
 
@@ -140,7 +140,7 @@ const Map = ({ navigation }) => {
                 "latitude": markerLatitude,
                 "longitude": markerLongitude
             },
-            altitude: 500
+            altitude: 1500
         });
     }
 
