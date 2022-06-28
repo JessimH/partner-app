@@ -15,15 +15,12 @@ import colors from '../assets/css_variables/Colors';
 import LogoPartner from '../assets/images/logoPartner.svg';
 import {Ionicons} from "@expo/vector-icons";
 import LottieView from 'lottie-react-native';
-
 import axios from 'axios';
-
 
 const baseUrl = 'https://partnerapi.herokuapp.com/api';
 const win = Dimensions.get('window');
 
 const Login = ({navigation}) => {
-
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -50,7 +47,6 @@ const Login = ({navigation}) => {
             setIsLoading(false);
         }
     };
-
 
     const [showPass, setShowPass] = useState(false);
 

@@ -8,7 +8,7 @@ import SportCircleWithText from "../Global/SportCircleWithText";
 const SectionSport = ({ navigation }) => {
     return (
         <View style={styles.SectionPro}>
-            <Text style={styles.sectionTitle}>Autour de vous</Text>
+            <Text style={styles.sectionTitle}>Autour de vous 📍</Text>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}

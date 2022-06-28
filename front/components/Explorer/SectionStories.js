@@ -2,21 +2,20 @@ import React from "react";
 import { View, Button, Text, StyleSheet, SafeAreaView, ScrollView, FlatList } from "react-native";
 
 import colors from '../../assets/css_variables/Colors';
-import StoryPreview from "./StoryPreview";
+import CoachingTaro from "./CoachingTaro";
 
 const SectionSport = ({ navigation }) => {
     return (
         <View style={styles.SectionPro}>
-            <Text style={styles.sectionTitle}>Stories et Lives pour vous</Text>
+            <Text style={styles.sectionTitle}>Surpassez-vous ! 💪</Text>
             <View style={styles.StoryPreview_section}>
-                <StoryPreview />
-                <StoryPreview />
-                <StoryPreview />
-                <StoryPreview />
-                <StoryPreview />
-                <StoryPreview />
-                <StoryPreview />
-                <StoryPreview />
+                <CoachingTaro />
+                <CoachingTaro />
+                <CoachingTaro />
+                <CoachingTaro />
+                <CoachingTaro />
+                <CoachingTaro />
+                <CoachingTaro />
             </View>
         </View>
     );
@@ -35,9 +34,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         marginTop: 16,
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        flexWrap: "wrap",
+        flexDirection: 'column',
     }
 });
 

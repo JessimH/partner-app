@@ -1,7 +1,7 @@
 // ./screens/About.js
 
 import React, {useRef} from "react";
-import {View, StyleSheet, Text, SafeAreaView, Plateform, TouchableOpacity} from "react-native";
+import {View, StyleSheet, Text, SafeAreaView, Plateform, TouchableWithoutFeedback, TouchableOpacity} from "react-native";
 import {ScrollView} from "react-native-gesture-handler";
 import UserRow from "../components/Global/UserRow";
 import Feed from "../components/Global/Feed";
@@ -12,12 +12,14 @@ import {Modalize} from "react-native-modalize";
 import SendToUser from "../components/Global/SendToUser";
 import {useScrollToTop} from "@react-navigation/native";
 import ScreenHeader from "../components/Global/ScreenHeader";
+import {dispatch} from "../context/store";
 
-const UserProfil = () => {
+const UserProfil = ({navigation}) => {
     const usersRef = useRef(null);
     useScrollToTop(usersRef);
     // ADD POST MODAL FUCTIONS
     const sendPostModal = useRef(null);
+    const userSettingsModal = useRef(null);
     const actionPostModal = useRef(null);
 
     const openSendPost = () => {
@@ -28,12 +30,26 @@ const UserProfil = () => {
         sendPostModal.current?.close();
     };
 
+    const openUserSettings = () => {
+        userSettingsModal.current?.open();
+    };
+
+    const closeUserSettings = () => {
+        userSettingsModal.current?.close();
+    };
+
     const openActionModal = () => {
         actionPostModal.current?.open();
     };
     const closeActionModal = () => {
         actionPostModal.current?.close();
     };
+
+    const disconnectUser = () => {
+        dispatch('currentUser', null);
+        dispatch('userAuth', null);
+        console.log('disconnectUser');
+    }
 
     return (
         <SafeAreaView style={styles.center}>
@@ -42,24 +58,62 @@ const UserProfil = () => {
                           menu={true}
                           title="Username"
                           userNote="4"
+                          openUserSettings={openUserSettings}
             />
             <ScrollView
                 style={styles.scrollView}
                 ref={usersRef}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
-
                 <UserInfo isCurentUser={true} />
-                <UserBio />
+                <UserBio rBio isCurentUser={true} />
+
                 <Feed profile={true}
                       openSendPost={openSendPost}
-                      openActionModal={openActionModal}/>
+                      openActionModal={openActionModal}
+                      navigation={navigation}
+                />
             </ScrollView>
+
+            {/*disconnect & Settings*/}
+            <Modalize
+                ref={userSettingsModal}
+                modalStyle={styles.modal}
+                scrollViewProps={{showsVerticalScrollIndicator: false}}
+                snapPoint={600}
+                adjustToContentHeight={true}
+                onScrollBeginDrag={false}
+                HeaderComponent={
+                    <View>
+                        <TouchableOpacity
+                            onPress={closeUserSettings}
+                            style={styles.modalHeader}>
+                            <View style={styles.barClose}></View>
+                        </TouchableOpacity>
+                    </View>
+                }
+                withHandle={false}>
+                <ScrollView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.sendPostModal}>
+
+                    <TouchableOpacity style={styles.actionsBtnOnPost}
+                                      onPress={() => navigation.navigate("UpdateProfile")}>
+                        <Text>Modifier mon profil</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.actionsBtnOnPost}
+                                      onPress={disconnectUser}>
+                        <Text style={styles.textProblem}>Déconnexion</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            </Modalize>
 
             {/*SEND POST*/}
             <Modalize
                 ref={sendPostModal}
                 scrollViewProps={{showsVerticalScrollIndicator: false}}
+                modalStyle={styles.modal}
                 snapPoint={600}
                 adjustToContentHeight={true}
                 onScrollBeginDrag={false}
@@ -90,6 +144,7 @@ const UserProfil = () => {
             <Modalize
                 ref={actionPostModal}
                 scrollViewProps={{showsVerticalScrollIndicator: false}}
+                modalStyle={styles.modal}
                 snapPoint={600}
                 adjustToContentHeight={true}
                 onScrollBeginDrag={false}
@@ -139,6 +194,10 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         paddingTop: 16,
+    },
+    modal:{
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
     },
     modalHeader: {
         padding: 10,

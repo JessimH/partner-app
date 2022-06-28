@@ -56,7 +56,7 @@ const Comments = ({navigation: {goBack}}) => {
                             />
 
                         </View>
-                        <TextInput placeholder="Que voulez-vous partager ?"
+                        <TextInput placeholder="Ecrivez votre commentaire..."
                                    style={styles.textInput}
                                    multiline={true}
                                    maxLength={140}
@@ -69,7 +69,7 @@ const Comments = ({navigation: {goBack}}) => {
                         <TouchableOpacity style={styles.confirmPost}
                                           onPress={sendComToDb}>
                             <Text style={styles.confirmText}>
-                                Publier
+                                Commenter
                             </Text>
                             <Ionicons style={styles.arrowIcon} name="arrow-forward" size={25}/>
                         </TouchableOpacity>

@@ -2,39 +2,43 @@ import React, {useRef, useState} from "react";
 import { View, Button, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react-native";
 import colors from "../../assets/css_variables/Colors";
 import Post from "./Post";
+import {Ionicons} from "@expo/vector-icons";
 
 const Feed = ({ navigation, openSendPost, profile, openActionModal }) => {
-    const [perfTab, setperfTab] = useState(false);
+    const [listTab, setListTab] = useState(false);
 
     function changeFakeTab() {
-        setperfTab(!perfTab);
+        setListTab(!listTab);
     }
     let posts = true
+    let sessions = false
 
     return (
         <View style={styles.feed}>
             {profile && (
                 <View style={styles.postNbr}>
-                    <TouchableOpacity style={[styles.fakeTab, perfTab ? null : styles.currentTab]} onPress={changeFakeTab}>
-                        <Text style={[styles.postNbrTxt, perfTab ? null : styles.currentTxt]}>37 posts</Text>
+                    <TouchableOpacity style={[styles.fakeTab, listTab ? null : styles.currentTab]} onPress={changeFakeTab}>
+                        <Ionicons style={[styles.postNbrTxt, listTab ? null : styles.currentTxt]} name="list-outline" size={40}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.fakeTab, perfTab ? styles.currentTab : null]} onPress={changeFakeTab}>
-                        <Text style={[styles.postNbrTxt, perfTab ? styles.currentTxt : null]}>Séances</Text>
+                    <TouchableOpacity style={[styles.fakeTab, listTab ? styles.currentTab : null]} onPress={changeFakeTab}>
+                        <Ionicons style={[styles.postNbrTxt, listTab ? styles.currentTxt : null]} name="barbell-outline" size={40}/>
                     </TouchableOpacity>
                 </View>
             )}
-            { (!perfTab && posts) ?(
+            { (!listTab && posts) ?(
                 <View>
                     <Post
                         openSendPost={openSendPost}
                         openActionModal={openActionModal}
                         sportPost={'🏀'}
+                        navigation={navigation}
                     />
                     <Post
                         openSendPost={openSendPost}
                         openActionModal={openActionModal}
                         imagePost={'https://static.nike.com/a/images/f_auto,cs_srgb/w_1536,c_limit/e5508157-d8af-4b69-8de3-d776ff6ed4ac/trouver-votre-chaussure-de-running.jpg'}
                         textPost="Blablabla"
+                        navigation={navigation}
                     />
                     <Post
                         openSendPost={openSendPost}
@@ -42,6 +46,7 @@ const Feed = ({ navigation, openSendPost, profile, openActionModal }) => {
                         textPost="Le sport va chercher la peur pour la dominer,
                         la fatigue pour en triompher, la difficulté pour la vaincre"
                         switchHidden={true}
+                        navigation={navigation}
                     />
                     <Post
                         openSendPost={openSendPost}
@@ -49,11 +54,14 @@ const Feed = ({ navigation, openSendPost, profile, openActionModal }) => {
                         imagePost={'https://pbs.twimg.com/media/FOcWFTtWYAI11PO?format=jpg&name=large'}
                         textPost="Le sport va chercher la peur pour la dominer,
                         la fatigue pour en triompher, la difficulté pour la vaincre"
+                        navigation={navigation}
                     />
                     <Post
                         openSendPost={openSendPost}
                         openActionModal={openActionModal}
                         sportPost={'🎾'}
+                        navigation={navigation}
+                        navigation={navigation}
                     />
                     <Post
                         openSendPost={openSendPost}
@@ -61,18 +69,21 @@ const Feed = ({ navigation, openSendPost, profile, openActionModal }) => {
                         imagePost={'https://www.telerama.fr/sites/tr_master/files/styles/simplecrop1000/public/medias/2016/06/media_144026/nos-terrains-de-foot-en-salle-preferes-en-region-parisienne%2CM347005.jpg?itok=Jv0Gx8EW'}
                         textPost="Le sport va chercher la peur pour la dominer,
                         la fatigue pour en triompher, la difficulté pour la vaincre"
+                        navigation={navigation}
                     />
                     <Post
                         openSendPost={openSendPost}
                         openActionModal={openActionModal}
                         textPost="Le sport va chercher la peur pour la dominer,
                         la fatigue pour en triompher, la difficulté pour la vaincre"
+                        navigation={navigation}
                     />
                     <Post
                         openSendPost={openSendPost}
                         openActionModal={openActionModal}
                         textPost="Le sport va chercher la peur pour la dominer,
                         la fatigue pour en triompher, la difficulté pour la vaincre"
+                        navigation={navigation}
                     />
                 </View>
 
@@ -80,13 +91,22 @@ const Feed = ({ navigation, openSendPost, profile, openActionModal }) => {
             :(
                 <View style={styles.noPost}>
                     {profile ? (
-                        <Text style={styles.noPostTxt}>Aucun post n'a été publié pour le moment, vous pouvez en publier a partir d'ici : </Text>
+                        <Text style={styles.noPostTxt}>Aucun post pour le moment 👋 </Text>
                     ): (
                         <Text style={styles.noPostTxt}>Vous ne suivez encore aucun Partner, vous pouvez en trouver ici !</Text>
                     )}
                 </View>
             )}
+            { (listTab && sessions) ?(
+                    <View>
 
+                    </View>
+                )
+                :(
+                    <View style={styles.noPost}>
+                      <Text style={styles.noPostTxt}>Il n'y a rien a voir ici, retourne a l'entrainement ! 🫵</Text>
+                    </View>
+                )}
         </View>
     );
 };
@@ -116,15 +136,15 @@ const styles = StyleSheet.create({
         borderColor: '#f0f0f0',
     },
     currentTab:{
-        borderColor: 'black',
+        borderColor: colors.primary,
     },
     postNbrTxt:{
-        fontSize: 16,
+        fontSize: 25,
         color: colors.gray,
         fontWeight: 'bold',
     },
     currentTxt:{
-        color: 'black',
+        color: colors.primary,
     },
     noPost:{
         width: "100%",

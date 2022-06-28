@@ -69,7 +69,7 @@ const PostForm = ({toggleAddPost}) => {
         <View
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.addPostModal}>
-            <ScrollView>
+            <View>
                 <View  style={styles.addPostForm}>
                     <View style={styles.UserPic_container}>
                         <Image
@@ -87,7 +87,7 @@ const PostForm = ({toggleAddPost}) => {
                         <Text style={styles.textCounterCurrent}>{numberC}</Text> /
                         140</Text>
                 </View>
-            </ScrollView>
+            </View>
             <View style={styles.imgPreviewContainer}>
                 {postPic && (<View style={styles.postPic_container}>
                     <Image

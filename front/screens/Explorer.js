@@ -2,7 +2,7 @@ import React from "react";
 import {View, StyleSheet, Text, SafeAreaView, TextInput, ScrollView, Plateform} from "react-native";
 
 import colors from '../assets/css_variables/Colors';
-import { Ionicons } from "@expo/vector-icons";
+import {Ionicons} from "@expo/vector-icons";
 
 
 import SectionPro from '../components/Explorer/SectionPro';
@@ -10,7 +10,7 @@ import SectionSport from '../components/Explorer/SectionSport';
 import SectionStories from '../components/Explorer/SectionStories';
 
 
-const Explorer = () => {
+const Explorer = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -20,7 +20,7 @@ const Explorer = () => {
                 <Text style={styles.explorer_title}>voici quelques suggestions pour vous ! 🔥</Text>
 
                 <View style={styles.explorer_inputSearch}>
-                    <Ionicons style={styles.inputIcon} name="ios-search" size={20} />
+                    <Ionicons style={styles.inputIcon} name="ios-search" size={20}/>
                     <TextInput
                         style={styles.input}
                         placeholderTextColor='rgba(60, 60, 67, 0.6)'
@@ -28,9 +28,9 @@ const Explorer = () => {
                         underlineColorAndroid="transparent"
                     />
                 </View>
-                <SectionPro />
-                <SectionSport />
-                <SectionStories />
+                <SectionPro navigation={navigation}/>
+                <SectionSport/>
+                <SectionStories/>
             </ScrollView>
         </SafeAreaView>
     );
@@ -38,7 +38,7 @@ const Explorer = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: Plateform === 'ios' ? 0: 40,
+        paddingTop: Plateform === 'ios' ? 0 : 40,
         flex: 1,
         textAlign: "left",
         backgroundColor: colors.background,
@@ -52,7 +52,10 @@ const styles = StyleSheet.create({
         color: colors.primary
     },
     explorer_inputSearch: {
-        marginTop: 32,
+        borderWidth: 1,
+        borderColor: '#f0f0f0',
+        marginTop: 24,
+        paddingBottom: 24,
         paddingHorizontal: 24,
         position: "relative",
         display: "flex",

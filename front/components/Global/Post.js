@@ -1,15 +1,12 @@
 import React, {useRef, useState} from "react";
-import {View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, TextInput} from "react-native";
+import {View, Text, StyleSheet, Image, Dimensions,Button, TouchableOpacity,TouchableWithoutFeedback, TextInput} from "react-native";
 import colors from "../../assets/css_variables/Colors";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from '@react-navigation/native';
 import SportCircle from "./SportCircle";
 
 const win = Dimensions.get('window');
 
-const Post = ({openSendPost, commentPage, openActionModal, imagePost, sportPost, textPost, switchHidden}) => {
-    const navigation = useNavigation();
-
+const Post = ({openSendPost, commentPage, openActionModal, imagePost, sportPost, textPost, switchHidden, navigation}) => {
 
     const [like, setLike] = useState(false);
     const [hidden, setHidden] = useState(false);
@@ -28,12 +25,13 @@ const Post = ({openSendPost, commentPage, openActionModal, imagePost, sportPost,
         <View style={styles.post}>
             {/*POST INFO*/}
             <View style={styles.postInfos}>
-                <View style={styles.UserPic_container}>
+                <TouchableWithoutFeedback style={styles.UserPic_container}
+                                          onPress={() => navigation.navigate("OtherUserProfil")}>
                     <Image
                         style={styles.userCircle_pic}
                         source={{ uri: 'https://images.unsplash.com/photo-1610737241336-371badac3b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }}
                     />
-                </View>
+                </TouchableWithoutFeedback>
                 <View style={styles.postInfosText}>
                     <Text style={styles.postUsername}>Username</Text>
                     <Text style={styles.postTimestamp}>Paris, France - il y a 10h </Text>

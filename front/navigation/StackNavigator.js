@@ -11,6 +11,8 @@ import Comments from "../screens/Comments";
 import SearchTraining from "../screens/SearchTraining";
 import Explorer from "../screens/Explorer";
 import UserProfil from "../screens/UserProfil";
+import UpdateProfile from "../screens/UpdateProfile";
+import OtherUserProfil from "../screens/OtherUserProfil";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,7 @@ const HomeStackNavigator = () => {
             <Stack.Screen name="StackHome" options={{ title: 'Accueil' }} component={Home} />
             <Stack.Screen name="Messages" component={Messages} />
             <Stack.Screen name="Comments" component={Comments} />
+            <Stack.Screen name="OtherUserProfil" component={OtherUserProfil} />
         </Stack.Navigator>
     );
 }
@@ -34,6 +37,7 @@ const ExplorerStackNavigator = () => {
                 headerShown: false,
             })}>
             <Stack.Screen name="Explorer" component={Explorer} />
+            <Stack.Screen name="OtherUserProfil" component={OtherUserProfil} />
         </Stack.Navigator>
     );
 }
@@ -45,6 +49,7 @@ const NotificationsStackNavigator = () => {
                 headerShown: false,
             })}>
             <Stack.Screen name="Notifications" component={Notifications} />
+            <Stack.Screen name="OtherUserProfil" component={OtherUserProfil} />
         </Stack.Navigator>
     );
 }
@@ -57,6 +62,7 @@ const MapStackNavigator = () => {
             })}>
             <Stack.Screen name="Map" component={Map} />
             <Stack.Screen name="SearchTraining" component={SearchTraining} />
+            <Stack.Screen name="OtherUserProfil" component={OtherUserProfil} />
         </Stack.Navigator>
     );
 }
@@ -69,6 +75,8 @@ const UserProfilStackNavigator = () => {
             })}>
             <Stack.Screen name="UserProfil" component={UserProfil} />
             <Stack.Screen name="Comments" component={Comments} />
+            <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+            <Stack.Screen name="OtherUserProfil" component={OtherUserProfil} />
         </Stack.Navigator>
     );
 }

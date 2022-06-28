@@ -127,7 +127,7 @@ const Map = ({ navigation }) => {
                 "latitude": location.coords.latitude,
                 "longitude": location.coords.longitude
             },
-            altitude: 1500
+            altitude: 2000
         });
     }
 
@@ -140,7 +140,7 @@ const Map = ({ navigation }) => {
                 "latitude": markerLatitude,
                 "longitude": markerLongitude
             },
-            altitude: 1500
+            altitude: 2000
         });
     }
 
@@ -326,6 +326,7 @@ const Map = ({ navigation }) => {
             <Modalize
                 ref={modalizeRef}
                 scrollViewProps={{ showsVerticalScrollIndicator: false }}
+                modalStyle={styles.modal}
                 snapPoint={900}
                 onScrollBeginDrag={false}
                 modalHeight={win.height * 0.85}
@@ -473,6 +474,7 @@ const Map = ({ navigation }) => {
             <Modalize
                 ref={modalizeRefAddBtn}
                 scrollViewProps={{ showsVerticalScrollIndicator: false }}
+                modalStyle={styles.modal}
                 onScrollBeginDrag={false}
                 withHandle={false}
                 snapPoint={900}
@@ -636,6 +638,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'flex-end',
+    },
+    modal:{
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
     },
     btnSearch: {
         zIndex: 6,

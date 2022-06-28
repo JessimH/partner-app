@@ -7,17 +7,21 @@ import colors from '../../assets/css_variables/Colors';
 const SectionPro = ({ navigation }) => {
     return (
         <View style={styles.SectionPro}>
-            <Text style={styles.sectionTitle}>Partner Pro 💪</Text>
+            <Text style={styles.sectionTitle}>Rencontrez de nouveaux Partners ! 🤝</Text>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 horizontal={true} style={styles.scrollSection}>
-                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
-                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
+                <UserCircle navigation={navigation}
+                            profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
+                <UserCircle navigation={navigation}
+                            profilPic={'https://pbs.twimg.com/profi000000le_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
                 <UserCircle />
-                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
+                <UserCircle navigation={navigation}
+                            profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
                 <UserCircle />
-                <UserCircle profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
+                <UserCircle navigation={navigation}
+                            profilPic={'https://pbs.twimg.com/profile_images/1377737397170016268/0WO1bJEW_400x400.jpg'} />
                 <UserCircle />
             </ScrollView>
         </View>

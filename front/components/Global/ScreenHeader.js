@@ -8,7 +8,7 @@ import {Ionicons} from "@expo/vector-icons";
 
 const win = Dimensions.get('window');
 
-const ScreenHeader = ({goBack, profileScreen,menu, messageScreen,noGoBack, title, userNote}) => {
+const ScreenHeader = ({goBack, profileScreen,menu, messageScreen,noGoBack, title, userNote, openUserSettings}) => {
 
     return (
         <View style={styles.headerComponent}>
@@ -29,6 +29,7 @@ const ScreenHeader = ({goBack, profileScreen,menu, messageScreen,noGoBack, title
             {menu && (
                 <TouchableOpacity
                     style={styles.headerComponentBtnRight}
+                    onPress={openUserSettings}
                 >
                     <Ionicons style={styles.backIcon} name="menu" size={25}/>
                 </TouchableOpacity>

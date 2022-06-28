@@ -20,13 +20,13 @@ import {Modalize} from 'react-native-modalize';
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 import LottieView from 'lottie-react-native';
-import {dispatch} from "../context/store";
+import ScreenHeader from "../components/Global/ScreenHeader";
 
 const baseUrl = 'https://partnerapi.herokuapp.com/api';
 
 const win = Dimensions.get('window');
 
-const Register = ({navigation}) => {
+const UpdateProfile = ({navigation: {goBack}}) => {
     useEffect(() => {
         console.log("register page");
         function makeGetRequest(path) {
@@ -144,7 +144,7 @@ const Register = ({navigation}) => {
         'profile_picture': profilPic
     }
 
-    const handleRegister = async (event) => {
+    const handleUpdate = async (event) => {
         setIsLoading(true);
         try {
             const response = await axios.post(`${baseUrl}/auth/register`, form);
@@ -153,9 +153,6 @@ const Register = ({navigation}) => {
                 setUsername('');
                 setPassword('');
                 console.log(JSON.stringify(response.data))
-                let user = response.data;
-                dispatch('currentUser', user);
-                dispatch('userAuth', true);
                 return response.data
             } else {
                 throw new Error("Bad status");
@@ -169,8 +166,12 @@ const Register = ({navigation}) => {
 
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.center} >
+            <ScreenHeader profileScreen={false}
+                          goBack={goBack}
+                          menu={false}
+                          title="Paramètres"
+            />
             <View style={styles.loginContainer}>
-                <LogoPartner style={styles.logo} width={190} height={100}/>
                 <View stylle={styles.loginForm}>
                     <View style={styles.addPic}>
                         <TouchableOpacity
@@ -198,7 +199,7 @@ const Register = ({navigation}) => {
                             /*autoFocus={true}*/
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
-                            placeholder="Nom d'utilisateur *"
+                            placeholder="Nom d'utilisateur"
                             onChangeText={(text) => setUsername(text)}
                             editable={!isLoading}
                             underlineColorAndroid="transparent"
@@ -209,7 +210,7 @@ const Register = ({navigation}) => {
                             style={styles.input}
                             keyboardType="email-address"
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
-                            placeholder="Email *"
+                            placeholder="Email"
                             onChangeText={(text) => setEmail(text)}
                             editable={!isLoading}
                             underlineColorAndroid="transparent"
@@ -221,7 +222,7 @@ const Register = ({navigation}) => {
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             secureTextEntry={showPass}
-                            placeholder="Mot de passe *"
+                            placeholder="Mot de passe"
                             onChangeText={(text) => setPassword(text)}
                             maxLength={10}
                             editable={!isLoading}
@@ -233,6 +234,17 @@ const Register = ({navigation}) => {
                             <Ionicons style={styles.iconEye} name={showPass ? "eye-outline" : "eye-off-outline"}
                                       size={20}/>
                         </TouchableOpacity>
+                    </View>
+                    <View style={styles.inputLogin}>
+                        <TextInput
+                            /*autoFocus={true}*/
+                            style={styles.input}
+                            placeholderTextColor='rgba(60, 60, 67, 0.6)'
+                            placeholder="Bio"
+                            onChangeText={(text) => setUsername(text)}
+                            editable={!isLoading}
+                            underlineColorAndroid="transparent"
+                        />
                     </View>
                     <Text style={styles.inputLabel}>Choisis les sports que tu pratiques ! 💪</Text>
                     <DropDownPicker
@@ -277,19 +289,9 @@ const Register = ({navigation}) => {
                         showBadgeDot={false}
                         extendableBadgeContainer={true}
                     />
-                    <ToggleSwitch
-                        style={styles.toggleSwitch}
-                        isOn={isChecked}
-                        onColor={colors.primary}
-                        offColor={colors.secondary}
-                        label="Êtes-vous coach ou professionnel ? 🔥"
-                        size="medium"
-                        labelStyle={{color: "black", fontWeight: "800"}}
-                        onToggle={toggleSwitch}
-                    />
                     <TouchableOpacity style={styles.loginBtn}
-                                      onPress={handleRegister}>
-                        {!isLoading && (<Text style={styles.loginBtnTxt}>S'inscrire</Text>)}
+                                      onPress={handleUpdate}>
+                        {!isLoading && (<Text style={styles.loginBtnTxt}>Enregistrer</Text>)}
                         {isLoading && (<LottieView
                             autoPlay
                             loop={true}
@@ -297,15 +299,6 @@ const Register = ({navigation}) => {
                             source={require('../assets/lotties/loading.json')}
                         />)}
                     </TouchableOpacity>
-                    <View style={styles.registerLink}>
-                        <Text style={styles.registerLink_txt}>
-                            Déjà inscrit ?
-                        </Text>
-                        <TouchableOpacity style={styles.registerBtn}
-                                          onPress={() => navigation.navigate("StackLogin")}>
-                            <Text style={styles.registerBtnTxt}>Connectez-vous !</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </View>
 
@@ -345,7 +338,7 @@ const Register = ({navigation}) => {
 
 const styles = StyleSheet.create({
     center: {
-        paddingTop: Plateform === 'ios' ? 0 : 40,
+        paddingTop: 77,
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
@@ -356,8 +349,6 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
         paddingHorizontal: 24,
     },
     logo: {
@@ -365,6 +356,7 @@ const styles = StyleSheet.create({
     },
     loginForm: {
         marginTop: 42,
+        paddingHorizontal: 24,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -443,6 +435,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     addPic: {
+        marginTop: 42,
         width: "100%",
         display: "flex",
         alignItems: "center",
@@ -500,4 +493,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Register;
+export default UpdateProfile;

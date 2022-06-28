@@ -1,48 +1,17 @@
-// ./App.js
-
 import React from "react";
-import {NavigationContainer} from "@react-navigation/native";
-import {LoginStackNavigator} from "./navigation/LoginStackNavigator";
-import BottomTabNavigator from "./navigation/TabNavigator";
-import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
-import colors from "./assets/css_variables/Colors";
+import RootNavigation from "./RootNavigation";
+
+import {Provider} from "react-redux";
+import {PersistGate} from "redux-persist/integration/react";
+import {store, persistor} from "./context/store";
 
 const App = () => {
-    const toastConfig = {
-
-        success: (props) => (
-            <BaseToast
-                {...props}
-                style={{ borderLeftColor: colors.primary }}
-                contentContainerStyle={{ paddingHorizontal: 16 }}
-                text1Style={{
-                    fontSize: 15,
-                    fontWeight: '700'
-                }}
-            />
-        ),
-
-        error: (props) => (
-            <ErrorToast
-                {...props}
-                style={{ borderLeftColor: colors.secondary }}
-                contentContainerStyle={{ paddingHorizontal: 16 }}
-                text1Style={{
-                    fontSize: 15,
-                    fontWeight: '700'
-                }}
-            />
-        ),
-    };
-
-    const connected = true
     return (
-            <NavigationContainer>
-                {connected
-                    ? (<BottomTabNavigator />)
-                    : (<LoginStackNavigator />)}
-                <Toast config={toastConfig}/>
-            </NavigationContainer>
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <RootNavigation/>
+            </PersistGate>
+        </Provider>
     );
 }
 export default App

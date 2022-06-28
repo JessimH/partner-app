@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Button, Text, StyleSheet, SafeAreaView, Image } from "react-native";
+import { View, Button, Text, StyleSheet,TouchableWithoutFeedback, SafeAreaView, Image } from "react-native";
 import colors from "../../assets/css_variables/Colors";
 
 const UserCircle = ({ navigation, profilPic }) => {
     return (
         <View style={styles.UserCircle}>
-            <View style={[styles.UserPic_container, styles.proBorder]}>
+            <TouchableWithoutFeedback style={styles.UserPic_container}
+                                      onPress={() => navigation.navigate("OtherUserProfil")}>
                 {profilPic
                     ? (<Image
                         style={styles.userCircle_pic}
@@ -16,7 +17,7 @@ const UserCircle = ({ navigation, profilPic }) => {
                         source={{ uri: 'https://exoffender.org/wp-content/uploads/2016/09/empty-profile.png' }}
                     />)
                 }
-            </View>
+            </TouchableWithoutFeedback>
             <Text numberOfLines={1} ellipsizeMode='tail' style={styles.userCircle_username}>Username</Text>
         </View>
     );
@@ -30,19 +31,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     UserPic_container: {
-        padding: 3,
         borderRadius: 50,
-        borderWidth: 2,
         marginBottom: 4
-    },
-    proBorder: {
-        borderColor: colors.primary
-    },
-    normalBorder: {
-        borderColor: colors.secondary
-    },
-    noStory: {
-        borderColor: colors.noSto
     },
     userCircle_pic: {
         height: 64,
@@ -52,6 +42,7 @@ const styles = StyleSheet.create({
     userCircle_username: {
         width: 74,
         fontSize: 12,
+        fontWeight: "700",
         textAlign: "center",
     }
 });

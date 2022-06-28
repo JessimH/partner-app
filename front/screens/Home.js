@@ -34,7 +34,7 @@ const Home = ({navigation}) => {
 
     // ADD POST MODAL FUCTIONS
     const sendPostModal = useRef(null);
-    const actionPostModal = useRef(null);
+    const actionPostModalHome = useRef(null);
 
     const openSendPost = () => {
         sendPostModal.current?.open();
@@ -45,10 +45,10 @@ const Home = ({navigation}) => {
     };
 
     const openActionModal = () => {
-        actionPostModal.current?.open();
+        actionPostModalHome.current?.open();
     };
     const closeActionModal = () => {
-        actionPostModal.current?.close();
+        actionPostModalHome.current?.close();
     };
 
     return (
@@ -69,8 +69,9 @@ const Home = ({navigation}) => {
                 showsHorizontalScrollIndicator={false}>
                 <PostForm />
                 <Feed openSendPost={openSendPost}
-                      openAction odal={openActionModal}
+                      openActionModal={openActionModal}
                       profile={false}
+                      navigation={navigation}
                 />
             </ScrollView>
 
@@ -78,6 +79,7 @@ const Home = ({navigation}) => {
             <Modalize
                 ref={sendPostModal}
                 scrollViewProps={{showsVerticalScrollIndicator: false}}
+                modalStyle={styles.modal}
                 snapPoint={600}
                 adjustToContentHeight={true}
                 onScrollBeginDrag={false}
@@ -106,8 +108,9 @@ const Home = ({navigation}) => {
             </Modalize>
 
             <Modalize
-                ref={actionPostModal}
+                ref={actionPostModalHome}
                 scrollViewProps={{showsVerticalScrollIndicator: false}}
+                modalStyle={styles.modal}
                 snapPoint={600}
                 adjustToContentHeight={true}
                 onScrollBeginDrag={false}
@@ -124,15 +127,7 @@ const Home = ({navigation}) => {
                 <ScrollView
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={styles.sendPostModal}>
-                    {/*IF USER POST */}
-                    <TouchableOpacity style={styles.actionsBtnOnPost}>
-                        <Text style={styles.textProblem}>Supprimer le post</Text>
-                    </TouchableOpacity>
-
                     {/*IF NOT*/}
-                    <TouchableOpacity style={styles.actionsBtnOnPost}>
-                        <Text style={styles.textProblem}>Signaler</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={styles.actionsBtnOnPost}>
                         <Text>Se désabonner</Text>
                     </TouchableOpacity>
@@ -140,6 +135,15 @@ const Home = ({navigation}) => {
                     {/*IF USER POST & USER IS PRO*/}
                     <TouchableOpacity style={styles.actionsBtnOnPost}>
                         <Text>Ne montrer ceci qu'à mes abonnés</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.actionsBtnOnPost}>
+                        <Text style={styles.textProblem}>Signaler</Text>
+                    </TouchableOpacity>
+
+                    {/*IF USER POST */}
+                    <TouchableOpacity style={styles.actionsBtnOnPost}>
+                        <Text style={styles.textProblem}>Supprimer le post</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </Modalize>
@@ -155,6 +159,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
         position: "relative",
         backgroundColor: colors.background,
+    },
+    modal:{
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
     },
     homeHeader: {
         paddingHorizontal: 24,
