@@ -25,6 +25,7 @@ import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../assets/css_variables/Colors";
+import UserCircle from "../components/Global/UserCircle";
 
 const win = Dimensions.get('window');
 
@@ -32,6 +33,7 @@ const Map = ({ navigation }) => {
     const mapRef = createRef();
     const modalizeRef = useRef(null);
     const modalizeRefAddBtn = useRef(null);
+    const modalizeJoinSession = useRef(null);
 
     const [datePicker, setDatePicker] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -56,6 +58,7 @@ const Map = ({ navigation }) => {
     useEffect(() => {
         CheckIfLocationEnabled();
         GetAddSessionLocation();
+        GetSessionLocation()
     }, []);
 
     useEffect(() => {
@@ -74,8 +77,6 @@ const Map = ({ navigation }) => {
             setLocation(location);
         })();
     }, []);
-
-
 
     let coords = null
     let addSessionlat = null
@@ -135,6 +136,11 @@ const Map = ({ navigation }) => {
         let markerLongitude = location.coords.longitude;
         let markerLatitude = location.coords.latitude + 0.005;
 
+        let coords = {
+            "latitude": markerLatitude,
+            "longitude": markerLongitude
+        }
+
         mapRef.current.animateCamera({
             center: {
                 "latitude": markerLatitude,
@@ -142,6 +148,10 @@ const Map = ({ navigation }) => {
             },
             altitude: 2000
         });
+
+        setTimeout(() => {
+            openJoinSession(coords);
+        }, 600);
     }
 
     // ADD SCEANCE MODAL FUCTIONS
@@ -152,6 +162,14 @@ const Map = ({ navigation }) => {
 
     const closeAddSeance = () => {
         modalizeRef.current?.close();
+        setDisplayCurrentAddress('L\'adresse est en cours de calcul...');
+    };
+
+
+
+    const closeJoinSession = () => {
+        modalizeJoinSession.current?.close();
+        setDisplayCurrentAddress('L\'adresse est en cours de calcul...');
     };
 
     const openAddSeanceBtn = () => {
@@ -206,6 +224,34 @@ const Map = ({ navigation }) => {
         console.log('GetAddSessionLocation:', coords);
     };
 
+    const GetSessionLocation = async (coords) => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== 'granted') {
+            Alert.alert(
+                'Permission not granted',
+                'Allow the app to use location service.',
+                [{ text: 'OK' }],
+                { cancelable: false }
+            );
+        }
+
+        if (coords) {
+            const { latitude, longitude } = coords;
+            let response = await Location.reverseGeocodeAsync({
+                latitude,
+                longitude
+            });
+            console.log('response:', response);
+            for (let item of response) {
+                let address = `${item.name}, ${item.postalCode}, ${item.city}`;
+
+                setDisplayCurrentAddress(address);
+            }
+        }
+        console.log('GetSessionLocation:', coords);
+    };
+
     const addSession = (event) => {
         let coords = event.nativeEvent.coordinate
         addSessionlat = coords.latitude
@@ -215,6 +261,7 @@ const Map = ({ navigation }) => {
         console.log(coords)
         openAddSeance();
     }
+
 
     const sendSessionToDb = () => {
         console.log("Post sent to DB");
@@ -227,6 +274,22 @@ const Map = ({ navigation }) => {
         setDatePicker(false);
         setDate(new Date());
         setTime(new Date(Date.now()));
+    }
+
+    const openJoinSession = (coords) => {
+        CheckIfLocationEnabled();
+        GetSessionLocation(coords);
+
+        modalizeJoinSession.current?.open();
+    };
+
+    const joinSessionToDb = (coords) => {
+        console.log("Post sent to DB");
+        Toast.show({
+            type: 'success',
+            text1: 'Vous avez bien rejoint la séance ! 🔥',
+        });
+        closeJoinSession()
     }
 
     return (
@@ -488,7 +551,7 @@ const Map = ({ navigation }) => {
                             <View style={styles.barClose}></View>
                         </TouchableOpacity>
                     </View>
-                }x
+                }
                 FooterComponent={
                     <View>
                         <TouchableOpacity style={styles.confirmPost}
@@ -618,6 +681,72 @@ const Map = ({ navigation }) => {
                     </View>
                 </ScrollView>
             </Modalize>
+            <Modalize
+                ref={modalizeJoinSession}
+                scrollViewProps={{ showsVerticalScrollIndicator: false }}
+                modalStyle={styles.modal}
+                onScrollBeginDrag={false}
+                withHandle={false}
+                snapPoint={900}
+                modalHeight={win.height * 0.85}
+                keyboardAvoidingBehavior={null}
+                HeaderComponent={
+                    <View>
+                        <TouchableOpacity
+                            onPress={closeJoinSession}
+                            style={styles.modalHeader}>
+                            <View style={styles.barClose}></View>
+                        </TouchableOpacity>
+                    </View>
+                }
+                FooterComponent={
+                    <View>
+                        <TouchableOpacity style={styles.confirmPost}
+                                          onPress={joinSessionToDb}>
+                            <Text style={styles.confirmText}>
+                                Rejoindre
+                            </Text>
+                            <Ionicons style={styles.arrowIcon} name="arrow-forward" size={25}/>
+                        </TouchableOpacity>
+                    </View>
+                }
+            >
+                <ScrollView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.infoSceanceModal}>
+                    <Text style={[styles.formTitle, {marginBottom: 32}]}>Hop ! Hop ! Ici on transpire ! 💦</Text>
+                    <View style={styles.sessionInfos}>
+                        <View style={styles.sessionCreator}>
+                            <UserCircle/>
+                            <View style={styles.partnerNote}>
+                                <Text style={styles.noteTxt}>5</Text>
+                                <Ionicons style={styles.starIcon} name="star" size={15}/>
+                            </View>
+                        </View>
+                        <SportCircle sportType={'🏀'}/>
+                    </View>
+                    <Text style={styles.inputLabel}>Où ? 📍</Text>
+                    <Text style={styles.sessioninf}>{displayCurrentAddress === 'L\'adresse est en cours de calcul...' ?  null :  displayCurrentAddress }</Text>
+                    <Text style={styles.inputLabel}>Quand ? 🤔</Text>
+                    <Text style={styles.sessioninf}>29/06/2022</Text>
+                    <Text style={styles.inputLabel}>À quelle heure ? ⌚️</Text>
+                    <Text style={styles.sessioninf}>12:00</Text>
+                    <Text style={styles.inputLabel}>Place restante? 🤝</Text>
+                    <Text style={styles.sessioninf}>1 / 10</Text>
+                    <Text style={styles.inputLabel}>Partners :</Text>
+                    <View style={styles.sessionsPartners}>
+                        <UserCircle/>
+                        <UserCircle/>
+                        <UserCircle/>
+                        <UserCircle/>
+                        <UserCircle/>
+                        <UserCircle/>
+                        <UserCircle/>
+                        <UserCircle/>
+                        <UserCircle/>
+                    </View>
+                </ScrollView>
+            </Modalize>
         </SafeAreaView>
     );
 };
@@ -698,6 +827,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.35,
         shadowRadius: 3,
     },
+    sessioninf:{
+        marginBottom: 12,
+    },
     centerOnUserIcon: {
         color: colors.primary
     },
@@ -723,6 +855,13 @@ const styles = StyleSheet.create({
         height: 700,
         paddingTop: 10,
         paddingBottom: 100,
+        paddingHorizontal: 24,
+    },
+    infoSceanceModal: {
+        width: '100%',
+        height: 700,
+        paddingTop: 10,
+        paddingBottom: 600,
         paddingHorizontal: 24,
     },
 
@@ -796,6 +935,57 @@ const styles = StyleSheet.create({
         display: 'flex',
         marginBottom: -16,
         marginTop: -24,
+    },
+    sessionInfos:{
+        marginLeft: -16,
+        paddingRight: 30,
+        width: win.width,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 16,
+    },
+    partnerNote: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+       position: "absolute",
+        top: -8,
+        right: -4,
+        backgroundColor: colors.background,
+        paddingHorizontal: 4,
+        borderRadius: 50,
+        shadowColor: 'rgba(0, 0, 0, 0.35)',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 3,
+    },
+    noteTxt: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: colors.primary,
+    },
+    starIcon: {
+        marginLeft: 4,
+        color: colors.primary,
+    },
+    sessionCreator:{
+        position: "relative",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    sessionsPartners:{
+        marginTop: 16,
+        marginLeft: -8,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        width: '100%',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
     },
 
 });

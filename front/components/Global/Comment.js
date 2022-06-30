@@ -18,7 +18,7 @@ return (
                 <View style={styles.postInfosText}>
                     <Text style={styles.postUsername}>Username</Text>
                     <Text>
-                        Je suis un commentaire la ptn de ta mere
+                        Je suis un commentaire
                     </Text>
                 </View>
             </View>

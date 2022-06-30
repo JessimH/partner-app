@@ -3,6 +3,7 @@ import { View, Button, Text, StyleSheet, FlatList, Image, TouchableOpacity } fro
 import colors from "../../assets/css_variables/Colors";
 import Post from "./Post";
 import {Ionicons} from "@expo/vector-icons";
+import SportCircle from "./SportCircle";
 
 const Feed = ({ navigation, openSendPost, profile, openActionModal }) => {
     const [listTab, setListTab] = useState(false);
@@ -90,23 +91,68 @@ const Feed = ({ navigation, openSendPost, profile, openActionModal }) => {
             )
             :(
                 <View style={styles.noPost}>
-                    {profile ? (
-                        <Text style={styles.noPostTxt}>Aucun post pour le moment 👋 </Text>
-                    ): (
-                        <Text style={styles.noPostTxt}>Vous ne suivez encore aucun Partner, vous pouvez en trouver ici !</Text>
+                    {profile && (
+                        <View style={styles.sessionHistoContainer}>
+                            <View style={styles.sessionHisto}>
+                                <SportCircle sportType={'⚽️'}/>
+                                <View  style={styles.sessionHistoInfo}>
+                                    <Text style={{fontWeight: "700", fontSize: 18}}>12/07/2022</Text>
+                                    <Text style={{fontWeight: "700"}}>6 partners</Text>
+                                    <View style={styles.partnerNote}>
+                                        <Text style={styles.noteTxt}>5</Text>
+                                        <Ionicons style={styles.starIcon} name="star" size={15}/>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.sessionHisto}>
+                                <SportCircle sportType={'⚽️'}/>
+                                <View  style={styles.sessionHistoInfo}>
+                                    <Text style={{fontWeight: "700", fontSize: 18}}>12/07/2022</Text>
+                                    <Text style={{fontWeight: "700"}}>6 partners</Text>
+                                    <View style={styles.partnerNote}>
+                                        <Text style={styles.noteTxt}>5</Text>
+                                        <Ionicons style={styles.starIcon} name="star" size={15}/>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.sessionHisto}>
+                                <SportCircle sportType={'⚽️'}/>
+                                <View  style={styles.sessionHistoInfo}>
+                                    <Text style={{fontWeight: "700", fontSize: 18}}>12/07/2022</Text>
+                                    <Text style={{fontWeight: "700"}}>6 partners</Text>
+                                    <View style={styles.partnerNote}>
+                                        <Text style={styles.noteTxt}>5</Text>
+                                        <Ionicons style={styles.starIcon} name="star" size={15}/>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.sessionHisto}>
+                                <SportCircle sportType={'⚽️'}/>
+                                <View  style={styles.sessionHistoInfo}>
+                                    <Text style={{fontWeight: "700", fontSize: 18}}>12/07/2022</Text>
+                                    <Text style={{fontWeight: "700"}}>6 partners</Text>
+                                    <View style={styles.partnerNote}>
+                                        <Text style={styles.noteTxt}>5</Text>
+                                        <Ionicons style={styles.starIcon} name="star" size={15}/>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.sessionHisto}>
+                                <SportCircle sportType={'⚽️'}/>
+                                <View  style={styles.sessionHistoInfo}>
+                                    <Text style={{fontWeight: "700", fontSize: 18}}>12/07/2022</Text>
+                                    <Text style={{fontWeight: "700"}}>6 partners</Text>
+                                    <View style={styles.partnerNote}>
+                                        <Text style={styles.noteTxt}>5</Text>
+                                        <Ionicons style={styles.starIcon} name="star" size={15}/>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+
                     )}
                 </View>
             )}
-            { (listTab && sessions) ?(
-                    <View>
-
-                    </View>
-                )
-                :(
-                    <View style={styles.noPost}>
-                      <Text style={styles.noPostTxt}>Il n'y a rien a voir ici, retourne a l'entrainement ! 🫵</Text>
-                    </View>
-                )}
         </View>
     );
 };
@@ -149,7 +195,6 @@ const styles = StyleSheet.create({
     noPost:{
         width: "100%",
         display: "flex",
-        paddingVertical: 24,
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
@@ -159,6 +204,40 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: "center",
         maxWidth: '70%',
+    },
+    partnerNote: {
+        marginTop: 4,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    noteTxt: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: colors.primary,
+    },
+    starIcon: {
+        marginLeft: 4,
+        color: colors.primary,
+    },
+    sessionHisto:{
+        display: "flex",
+        flexDirection: "row",
+        width: "100%",
+        paddingHorizontal: 24,
+        borderBottomWidth: 1,
+        paddingVertical: 12,
+        borderColor: '#e7e7e7',
+    },
+    sessionHistoInfo: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        marginLeft: 12,
+    },
+    sessionHistoContainer:{
+        width: "100%",
     }
 });
 
