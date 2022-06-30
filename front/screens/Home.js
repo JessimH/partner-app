@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState,useCallback, useEffect } from "react";
 import {
     View,
     Button,
@@ -25,12 +25,33 @@ import SendToUser from "../components/Global/SendToUser";
 import PostForm from "../components/Global/PostForm";
 import { useScrollToTop } from '@react-navigation/native';
 import {Touchable} from "react-native-web";
+import axios from "axios";
+import {useSelector} from "react-redux";
 
 const win = Dimensions.get('window');
+const baseUrl = 'https://partnerapi.herokuapp.com/api';
 
 const Home = ({navigation}) => {
     const homeRef = useRef(null);
     useScrollToTop(homeRef);
+
+    const [feedPosts, setFeedPosts] = useState([]);
+    const currentUser =  useSelector(s => s.currentUser);
+
+    const makeGetRequest = useCallback(async () => {
+        const result = await axios.get(`${baseUrl}/posts`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` }
+        })
+        console.log(result.data);
+        setFeedPosts(result.data);
+        console.log("posts:", feedPosts);
+        return;
+    });
+
+    useEffect(() => {
+        makeGetRequest();
+        console.log("posts:", feedPosts);
+    }, [feedPosts])
 
     // ADD POST MODAL FUCTIONS
     const sendPostModal = useRef(null);
@@ -68,11 +89,14 @@ const Home = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
                 <PostForm />
-                <Feed openSendPost={openSendPost}
-                      openActionModal={openActionModal}
-                      profile={false}
-                      navigation={navigation}
-                />
+                {feedPosts && (
+                    <Feed openSendPost={openSendPost}
+                          posts={feedPosts[0]}
+                         openActionModal={openActionModal}
+                         profile={false}
+                         navigation={navigation}
+                    />
+                )}
             </ScrollView>
 
             {/*SEND POST*/}

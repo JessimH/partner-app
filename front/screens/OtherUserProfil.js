@@ -13,7 +13,7 @@ import SendToUser from "../components/Global/SendToUser";
 import {useScrollToTop} from "@react-navigation/native";
 import ScreenHeader from "../components/Global/ScreenHeader";
 
-const OtherUserProfil = ({navigation: {goBack}}) => {
+const OtherUserProfil = ({navigation, navigation: {goBack}}) => {
     const usersRef = useRef(null);
     useScrollToTop(usersRef);
     // ADD POST MODAL FUCTIONS
@@ -58,7 +58,7 @@ const OtherUserProfil = ({navigation: {goBack}}) => {
                 showsHorizontalScrollIndicator={false}>
 
                 <UserInfo isCurentUser={true} />
-                <UserBio />
+                <UserBio navigation={navigation} isCurentUser={false} isPro={true} />
                 <Feed profile={false}
                       openSendPost={openSendPost}
                       openActionModal={openActionModal}/>

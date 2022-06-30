@@ -94,12 +94,14 @@ const Register = ({navigation}) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             quality: 1,
+            base64: true,
         });
 
         console.log(result);
 
         if (!result.cancelled) {
             setProfilPic(result.uri);
+            setProfilPicBase64(result.base64);
         }
         closeAddPic();
     }
@@ -116,12 +118,14 @@ const Register = ({navigation}) => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             quality: 1,
+            base64: true,
         });
 
         console.log(result);
 
         if (!result.cancelled) {
             setProfilPic(result.uri);
+            setProfilPicBase64(result.base64);
         }
         closeAddPic();
     }
@@ -134,6 +138,7 @@ const Register = ({navigation}) => {
     const [valueSelect, setValueSelect] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
     const [profilPic, setProfilPic] = useState(null);
+    const [profilPicBase64, setProfilPicBase64] = useState(null);
 
     const form =  {
         email,
@@ -141,28 +146,37 @@ const Register = ({navigation}) => {
         password,
         'sports': valueSelect,
         'is_pro': isChecked,
-        'profile_picture': profilPic
+        'picture': profilPicBase64
+    }
+
+    const config = {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
     }
 
     const handleRegister = async (event) => {
         setIsLoading(true);
+        console.log(form);
         try {
-            const response = await axios.post(`${baseUrl}/auth/register`, form);
+            const response = await axios.post(`${baseUrl}/auth/register`, form, config)
             if (response.status === 201) {
                 setIsLoading(false);
-                setUsername('');
-                setPassword('');
+                setUsername(null);
+                setPassword(null);
+                setProfilPic(null);
+                setProfilPicBase64(null);
+                setIsChecked(false);
                 console.log(JSON.stringify(response.data))
                 let user = response.data;
                 dispatch('currentUser', user);
                 dispatch('userAuth', true);
-                return response.data
             } else {
                 throw new Error("Bad status");
             }
         } catch (error) {
-            console.log(error);
-            alert("Mauvaise Url", error);
+            alert('Bad status');
             setIsLoading(false);
         }
     };

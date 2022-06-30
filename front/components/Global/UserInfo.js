@@ -4,26 +4,29 @@ import colors from "../../assets/css_variables/Colors";
 import CurrentUserCircle from "./CurrentUserCircle";
 import SportTag from "./SportTag";
 
-const userInfo = ({ navigation, openSendPost, isCurentUser }) => {
+const userInfo = ({ navigation, userData }) => {
     return (
         <View style={styles.userInfos}>
-            <CurrentUserCircle isCurentUser={isCurentUser}/>
-            <View style={styles.userInfosText}>
-                <View style={styles.userInfosStats}>
-                    <View style={styles.userInfosStat}>
-                        <Text style={styles.userInfosTextBold}>54</Text>
-                        <Text style={styles.userInfosTextDesc}>séances</Text>
-                    </View>
-                    <View style={styles.userInfosStat}>
-                        <Text style={styles.userInfosTextBold}>1k</Text>
-                        <Text style={styles.userInfosTextDesc}>Abonnés</Text>
-                    </View>
-                    <View style={styles.userInfosStat}>
-                        <Text style={styles.userInfosTextBold}>137</Text>
-                        <Text style={styles.userInfosTextDesc}>Partners</Text>
+            <CurrentUserCircle/>
+            {userData && (
+                <View style={styles.userInfosText}>
+                    <View style={styles.userInfosStats}>
+                        <View style={styles.userInfosStat}>
+                            {userData.sessions && (<Text style={styles.userInfosTextBold}>{userData.sessions.length}</Text>)}
+                            <Text style={styles.userInfosTextDesc}>séances</Text>
+                        </View>
+                        <View style={styles.userInfosStat}>
+                            {userData.user  && (<Text style={styles.userInfosTextBold}>{userData.user[0].followers ? userData.user[0].followers.length : 0}</Text>)}
+                            <Text style={styles.userInfosTextDesc}>Abonnés</Text>
+                        </View>
+                        <View style={styles.userInfosStat}>
+                            {userData.user && (<Text
+                                style={styles.userInfosTextBold}>{userData.user[0].following ? userData.user[0].following.length : 0}</Text>)}
+                            <Text style={styles.userInfosTextDesc}>Partners</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
+            )}
         </View>
     );
 };

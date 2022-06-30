@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
     View,
     Button,
@@ -13,42 +13,68 @@ import {
 import colors from "../../assets/css_variables/Colors";
 import SportTag from "./SportTag";
 import {Ionicons} from "@expo/vector-icons";
+import {useSelector} from "react-redux";
 
 const win = Dimensions.get('window');
 
-const UserBio = ({ navigation, sportTexte, isCurentUser}) => {
+const UserBio = ({ navigation, userData, isPro}) => {
+    const currentUser =  useSelector(s => s.currentUser);
+
     const [following, setFollowing] = useState(false);
+    const [isCurrentUser, setIsCurrentUser] = useState(false);
+    const [userSports, setUserSports] = useState([]);
 
     const onPressFollow = () => {
         setFollowing(!following);
     }
 
+    useEffect(() => {
+        if(userData.user){
+            if(currentUser.id === userData.user[0].id) {
+                setIsCurrentUser(true)
+            }
+        }
+        setUserSports(userData.sports);
+    }, [isCurrentUser, userSports]);
+
     return (
         <View style={styles.userBio}>
+            {userData && (<View style={styles.userBioTop}>
+                <Text style={styles.userBioTopTxt}>Partner vérifié</Text>
+                {!isCurrentUser && (
+                    <TouchableOpacity style={following ? styles.followBtn : styles.alreadyFollowBtn}
+                                      onPress={onPressFollow}>
+                        {following ? (<Text style={styles.followBtnTxt}>S'abonner</Text>) : (
+                            <Text style={styles.alreadyFollowBtnTxt}>Abonné(e)</Text>)}
+                    </TouchableOpacity>
+                )}
+            </View>)}
 
-                <View style={styles.userBioTop}>
-                    <Text style={styles.userBioTopTxt}>Partner vérifié</Text>
-                    {!isCurentUser && (
-                        <TouchableOpacity style={following ? styles.followBtn : styles.alreadyFollowBtn} onPress={onPressFollow}>
-                            {following ? (<Text  style={styles.followBtnTxt}>S'abonner</Text>) : (<Text  style={styles.alreadyFollowBtnTxt}>Abonné(e)</Text>)}
+            <Text style={styles.userBioText}>Bio de l'utilisateur en v2</Text>
+            {userSports && (<View style={styles.userInfosSports}>
+                {userSports.map((sport, index) => (
+                    <SportTag key={index} sportTexte={sport.name}/>
+                ))}
+            </View>)}
+
+            {userData.user && (
+                <View>
+                    {isCurrentUser ? (
+                        <TouchableOpacity style={styles.proBtn}>
+                            <Ionicons style={styles.backIcon} name="calendar-outline" size={25}/>
+                            <Text style={styles.proBtnTxt}>3 Coaching prévu</Text>
+                            <Ionicons style={[styles.backIcon, {marginLeft: 8}]} name="arrow-forward-outline" size={25}/>
+                        </TouchableOpacity>
+                    )
+                    :(
+                        <TouchableOpacity style={styles.proBtn}>
+                            <Ionicons style={styles.backIcon} name="calendar-outline" size={25}/>
+                            <Text style={styles.proBtnTxt}>Réserver un coaching 💪</Text>
+                            <Ionicons style={[styles.backIcon, {marginLeft: 8}]} name="arrow-forward-outline" size={25}/>
                         </TouchableOpacity>
                     )}
                 </View>
-
-            <Text style={styles.userBioText}>La boxe n’est pas qu’un sport, c’est un mode de vie.</Text>
-            <View style={styles.userInfosSports}>
-                <SportTag sportTexte={'🥊 Boxe'}/>
-                <SportTag sportTexte={'🏀 Basket'}/>
-                <SportTag sportTexte={'⚽️ Foot'}/>
-                <SportTag sportTexte={'🎾 Tennis'}/>
-                <SportTag sportTexte={'🏋️‍ Muscu'}/>
-            </View>
-
-            <TouchableOpacity style={styles.proBtn}>
-                <Ionicons style={styles.backIcon} name="calendar-outline" size={25}/>
-                <Text style={styles.proBtnTxt}>3 Coaching prévu</Text>
-                <Ionicons style={[styles.backIcon, {marginLeft: 8}]} name="arrow-forward-outline" size={25}/>
-            </TouchableOpacity>
+            )}
         </View>
     );
 };

@@ -16,36 +16,42 @@ import LogoPartner from '../assets/images/logoPartner.svg';
 import {Ionicons} from "@expo/vector-icons";
 import LottieView from 'lottie-react-native';
 import axios from 'axios';
+import {dispatch} from "../context/store";
 
 const baseUrl = 'https://partnerapi.herokuapp.com/api';
 const win = Dimensions.get('window');
 
 const Login = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const form =  {
+        username,
+        password,
+    }
 
     const onSubmitLogin = async (event) => {
+        console.log('form', form);
         setIsLoading(true);
         try {
-            const response = await axios.post(`${baseUrl}/auth/login`, {
-                username,
-                password,
-            });
+            const response = await axios.post(`${baseUrl}/auth/login`, form);
             if (response.status === 200) {
-                setIsLoading(false);
-                setUsername('');
-                setPassword('');
                 console.log(JSON.stringify(response.data))
-                return response.data
+                let user = response.data;
+                dispatch('currentUser', user);
+                dispatch('userAuth', true);
             } else {
-                throw new Error("Bad status");
+                throw new Error("Les identifiants ne correspondent a aucun utilisateur");
             }
         } catch (error) {
             console.log(error);
-            alert("Mauvaise Url", error);
+            alert("mauvaise url", error);
             setIsLoading(false);
         }
+        setIsLoading(false);
+        setUsername(null);
+        setPassword(null);
     };
 
     const [showPass, setShowPass] = useState(false);

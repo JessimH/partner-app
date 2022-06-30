@@ -21,9 +21,13 @@ const ScreenHeader = ({goBack, profileScreen,menu, messageScreen,noGoBack, title
             )}
             <Text style={styles.headerComponentTxt}>{title}</Text>
             {profileScreen && (
-                <View style={styles.partnerNote}>
-                    <Text style={styles.noteTxt}>{userNote}</Text>
-                    <Ionicons style={styles.starIcon} name="star" size={15}/>
+                <View>
+                    {userNote && (
+                        <View style={styles.partnerNote}>
+                            <Text style={styles.noteTxt}>{userNote}</Text>
+                            <Ionicons style={styles.starIcon} name="star" size={15}/>
+                        </View>
+                    )}
                 </View>
             )}
             {menu && (
