@@ -4,13 +4,20 @@ import colors from "../../assets/css_variables/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import {ScrollView} from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import {useSelector} from "react-redux";
+import LottieView from "lottie-react-native";
 
 const win = Dimensions.get('window');
+const baseUrl = 'https://partnerapi.herokuapp.com/api';
 
 const PostForm = ({toggleAddPost}) => {
+    const currentUser =  useSelector(s => s.currentUser);
     const [numberC, setNumberC] = useState(0)
-
     const [postPic, setPostPic] = useState(null);
+    const [postPicBase64, setPostPicBase64] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [description, setDescription] = useState('');
 
     const deletePostPic = () => {
         setPostPic(null);
@@ -28,15 +35,16 @@ const PostForm = ({toggleAddPost}) => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             quality: 1,
+            base64: true,
         });
 
         console.log(result);
 
         if (!result.cancelled) {
             setPostPic(result.uri);
+            setPostPicBase64(result.base64);
         }
     }
-
 
     const pickImageFromLibrary = async () => {
         // Ask the user for the permission to access the media library
@@ -50,16 +58,48 @@ const PostForm = ({toggleAddPost}) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             quality: 1,
+            base64: true,
         });
 
         console.log(result);
 
         if (!result.cancelled) {
             setPostPic(result.uri);
+            setPostPicBase64(result.base64);
         }
     }
 
-    const sendPostToDb = () => {
+    const form = {
+        description,
+        "medias": postPicBase64
+    }
+
+    const config = {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${currentUser.token}`
+        }
+    }
+    const sendPostToDb =  async (event)=> {
+        setIsLoading(true);
+        console.log(form);
+        try {
+            const response = await axios.post(`${baseUrl}/post`, form, config)
+            if (response.status === 201) {
+                setIsLoading(false);
+                setDescription('');
+                setPostPic(null);
+                setPostPicBase64(null);
+                console.log(JSON.stringify(response.data))
+            } else {
+                throw new Error("Bad status");
+            }
+        } catch (error) {
+            alert('Bad status');
+            console.log(error);
+            setIsLoading(false);
+        }
         console.log("Post sent to DB");
         setPostPic(null)
         setNumberC(0)
@@ -82,7 +122,10 @@ const PostForm = ({toggleAddPost}) => {
                                style={styles.textInput}
                                multiline={true}
                                maxLength={140}
-                               onChangeText={newText => setNumberC(newText.length)}/>
+                               onChangeText={newText => {
+                                   setNumberC(newText.length)
+                                   setDescription(newText)}}
+                    />
                     <Text style={styles.textCounter}>
                         <Text style={styles.textCounterCurrent}>{numberC}</Text> /
                         140</Text>
@@ -112,9 +155,16 @@ const PostForm = ({toggleAddPost}) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.confirmPost}
                                   onPress={sendPostToDb}>
-                    <Text style={styles.confirmText}>
+
+                    {!isLoading && ( <Text style={styles.confirmText}>
                         Publier
-                    </Text>
+                    </Text>)}
+                    {isLoading && (<LottieView
+                        autoPlay
+                        loop={true}
+                        style={styles.LottieUserLocation}
+                        source={require('../../assets/lotties/loading.json')}
+                    />)}
                     <Ionicons style={styles.arrowIcon} name="arrow-forward" size={25}/>
                 </TouchableOpacity>
             </View>

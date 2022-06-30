@@ -6,7 +6,7 @@ import SportCircle from "./SportCircle";
 
 const win = Dimensions.get('window');
 
-const Post = ({openSendPost, commentPage, openActionModal, imagePost, sportPost, textPost, switchHidden, navigation}) => {
+const Post = ({openSendPost, commentPage, openActionModal, imagePost, sportPost, textPost, postInfos, navigation}) => {
 
     const [like, setLike] = useState(false);
     const [hidden, setHidden] = useState(false);
@@ -34,7 +34,7 @@ const Post = ({openSendPost, commentPage, openActionModal, imagePost, sportPost,
                 </TouchableWithoutFeedback>
                 <View style={styles.postInfosText}>
                     <Text style={styles.postUsername}>Username</Text>
-                    <Text style={styles.postTimestamp}>Paris, France - il y a 10h </Text>
+                    {postInfos && (<Text style={styles.postTimestamp}>{postInfos.created_at}</Text>)}
                 </View>
                 <TouchableOpacity
                     style={styles.btnActions}

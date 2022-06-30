@@ -1,6 +1,6 @@
 // ./screens/About.js
 
-import React, {useRef} from "react";
+import React, {useRef, useEffect, useState, useCallback} from "react";
 import {View, StyleSheet, Text, SafeAreaView, Plateform, TouchableWithoutFeedback, TouchableOpacity} from "react-native";
 import {ScrollView} from "react-native-gesture-handler";
 import UserRow from "../components/Global/UserRow";
@@ -13,8 +13,32 @@ import SendToUser from "../components/Global/SendToUser";
 import {useScrollToTop} from "@react-navigation/native";
 import ScreenHeader from "../components/Global/ScreenHeader";
 import {dispatch} from "../context/store";
+import {useSelector} from "react-redux";
+import axios from "axios";
+
+
+const baseUrl = 'https://partnerapi.herokuapp.com/api';
 
 const UserProfil = ({navigation}) => {
+
+    const currentUser =  useSelector(s => s.currentUser);
+    const [userData, setUserData] = useState([]);
+
+    const makeGetRequest = useCallback(async () => {
+        const result = await axios.get(`${baseUrl}/profile/${currentUser.id}`, {
+            headers: { Authorization: `Bearer ${currentUser.token}` }
+        })
+        console.log(result.data);
+        setUserData(result.data);
+        console.log("UserData:", userData);
+        return;
+    });
+
+    useEffect(() => {
+        console.log("User State:", currentUser);
+        makeGetRequest();
+    }, [userData])
+
     const usersRef = useRef(null);
     useScrollToTop(usersRef);
     // ADD POST MODAL FUCTIONS
@@ -53,26 +77,30 @@ const UserProfil = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.center}>
-            <ScreenHeader profileScreen={true}
-                          noGoBack={true}
-                          menu={true}
-                          title="Username"
-                          userNote="4"
-                          openUserSettings={openUserSettings}
-            />
+            {userData.user && (
+                <ScreenHeader profileScreen={true}
+                              noGoBack={true}
+                              menu={true}
+                              title={currentUser.username}
+                              userNote={userData.user[0].note}
+                              openUserSettings={openUserSettings}
+                />
+            )}
             <ScrollView
                 style={styles.scrollView}
                 ref={usersRef}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
-                <UserInfo isCurentUser={true} />
-                <UserBio rBio isCurentUser={true} />
+                {userData && <UserInfo userData={userData} />}
+                {userData && <UserBio navigation={currentUser} userData={userData} isPro={true} />}
 
-                <Feed profile={true}
+                {userData && (<Feed
+                    posts={userData.posts}
+                    profile={true}
                       openSendPost={openSendPost}
                       openActionModal={openActionModal}
                       navigation={navigation}
-                />
+                />)}
             </ScrollView>
 
             {/*disconnect & Settings*/}
