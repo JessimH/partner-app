@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     sportTagText:{
-        color: colors.primary,
+        color: colors.black,
         fontWeight: 'bold',
     }
 });

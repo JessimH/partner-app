@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     UserPic_focused: {
         padding: 2,
         borderWidth: 2,
-        borderColor: colors.primary,
+        borderColor: colors.black,
         borderRadius: 50,
     },
     UserPic_noFocused: {

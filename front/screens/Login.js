@@ -82,7 +82,7 @@ const Login = ({navigation}) => {
                             style={styles.input}
                             placeholderTextColor='rgba(60, 60, 67, 0.6)'
                             placeholder="Mot de passe *"
-                            axLength={10}
+                            maxLength={12}
                             editable={!isLoading}
                             secureTextEntry={showPass}
                             onChangeText={(text) => setPassword(text)}
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        backgroundColor: colors.background,
     },
     loginContainer: {
         width: "100%",

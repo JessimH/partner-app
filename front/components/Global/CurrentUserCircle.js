@@ -25,7 +25,6 @@ const CurrentUserCircle = ({ navigation, isCurentUser }) => {
 
 const styles = StyleSheet.create({
     UserCircle: {
-        marginLeft: 16,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -36,8 +35,8 @@ const styles = StyleSheet.create({
         marginBottom: 4
     },
     userCircle_pic: {
-        height: 64,
-        width: 64,
+        height: 84,
+        width: 84,
         borderRadius: 50,
     },
     userCircle_username: {

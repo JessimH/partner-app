@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         textAlign: "center",
-        backgroundColor: colors.background,
     },
 });
 

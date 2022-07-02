@@ -16,8 +16,8 @@ const Explorer = ({navigation}) => {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
-                <Text style={styles.explorer_title}>Salut <Text style={styles.title_username}>jessh-94</Text> 👋,</Text>
-                <Text style={styles.explorer_title}>voici quelques suggestions pour vous ! 🔥</Text>
+                <Text style={styles.explorer_title}>Salut <Text style={styles.title_username}>Username</Text> 👋,</Text>
+                <Text style={styles.explorer_title}>envie de vous surpasser ?🔥</Text>
 
                 <View style={styles.explorer_inputSearch}>
                     <Ionicons style={styles.inputIcon} name="ios-search" size={20}/>
@@ -28,7 +28,6 @@ const Explorer = ({navigation}) => {
                         underlineColorAndroid="transparent"
                     />
                 </View>
-                <SectionPro navigation={navigation}/>
                 <SectionSport/>
                 <SectionStories/>
             </ScrollView>
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
         paddingTop: Plateform === 'ios' ? 0 : 40,
         flex: 1,
         textAlign: "left",
-        backgroundColor: colors.background,
     },
     explorer_title: {
         paddingHorizontal: 24,
@@ -52,10 +50,8 @@ const styles = StyleSheet.create({
         color: colors.primary
     },
     explorer_inputSearch: {
-        borderWidth: 1,
-        borderColor: '#f0f0f0',
         marginTop: 24,
-        paddingBottom: 24,
+        paddingBottom: 8,
         paddingHorizontal: 24,
         position: "relative",
         display: "flex",

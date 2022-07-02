@@ -4,10 +4,10 @@ import React, {useRef, useEffect, useState, useCallback} from "react";
 import {View, StyleSheet, Text, SafeAreaView, Plateform, TouchableWithoutFeedback, TouchableOpacity} from "react-native";
 import {ScrollView} from "react-native-gesture-handler";
 import UserRow from "../components/Global/UserRow";
-import Feed from "../components/Global/Feed";
 import UserInfo from "../components/Global/UserInfo";
 import colors from "../assets/css_variables/Colors";
 import UserBio from "../components/Global/UserBio";
+
 import {Modalize} from "react-native-modalize";
 import SendToUser from "../components/Global/SendToUser";
 import {useScrollToTop} from "@react-navigation/native";
@@ -20,26 +20,8 @@ import axios from "axios";
 const baseUrl = 'https://partnerapi.herokuapp.com/api';
 
 const UserProfil = ({navigation}) => {
-
-    const currentUser =  useSelector(s => s.currentUser);
-    const [userData, setUserData] = useState([]);
-
-    const makeGetRequest = useCallback(async () => {
-        const result = await axios.get(`${baseUrl}/profile/${currentUser.id}`, {
-            headers: { Authorization: `Bearer ${currentUser.token}` }
-        })
-        console.log(result.data);
-        setUserData(result.data);
-        console.log("UserData:", userData);
-        return;
-    });
-
-    useEffect(() => {
-        console.log("User State:", currentUser);
-        makeGetRequest();
-    }, [userData])
-
     const usersRef = useRef(null);
+
     useScrollToTop(usersRef);
     // ADD POST MODAL FUCTIONS
     const sendPostModal = useRef(null);
@@ -77,30 +59,13 @@ const UserProfil = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.center}>
-            {userData.user && (
-                <ScreenHeader profileScreen={true}
-                              noGoBack={true}
-                              menu={true}
-                              title={currentUser.username}
-                              userNote={userData.user[0].note}
-                              openUserSettings={openUserSettings}
-                />
-            )}
             <ScrollView
                 style={styles.scrollView}
                 ref={usersRef}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}>
-                {userData && <UserInfo userData={userData} />}
-                {userData && <UserBio navigation={currentUser} userData={userData} isPro={true} />}
-
-                {userData && (<Feed
-                    posts={userData.posts}
-                    profile={true}
-                      openSendPost={openSendPost}
-                      openActionModal={openActionModal}
-                      navigation={navigation}
-                />)}
+                <UserInfo userData={true} />
+                <UserBio navigation={navigation} isCurrentUser={true} userData={true} isPro={true} />
             </ScrollView>
 
             {/*disconnect & Settings*/}
@@ -136,78 +101,6 @@ const UserProfil = ({navigation}) => {
                     </TouchableOpacity>
                 </ScrollView>
             </Modalize>
-
-            {/*SEND POST*/}
-            <Modalize
-                ref={sendPostModal}
-                scrollViewProps={{showsVerticalScrollIndicator: false}}
-                modalStyle={styles.modal}
-                snapPoint={600}
-                adjustToContentHeight={true}
-                onScrollBeginDrag={false}
-                HeaderComponent={
-                    <View>
-                        <TouchableOpacity
-                            onPress={closeSendPost}
-                            style={styles.modalHeader}>
-                            <View style={styles.barClose}></View>
-                        </TouchableOpacity>
-                    </View>
-                }
-                withHandle={false}>
-                <ScrollView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={styles.sendPostModal}>
-                    <Text style={styles.formTitle}>Avec qui partager ceci ? 🤔</Text>
-                    <SendToUser/>
-                    <SendToUser/>
-                    <SendToUser/>
-                    <SendToUser/>
-                    <SendToUser/>
-                    <SendToUser/>
-                    <SendToUser/>
-                </ScrollView>
-            </Modalize>
-
-            <Modalize
-                ref={actionPostModal}
-                scrollViewProps={{showsVerticalScrollIndicator: false}}
-                modalStyle={styles.modal}
-                snapPoint={600}
-                adjustToContentHeight={true}
-                onScrollBeginDrag={false}
-                HeaderComponent={
-                    <View>
-                        <TouchableOpacity
-                            onPress={closeActionModal}
-                            style={styles.modalHeader}>
-                            <View style={styles.barClose}></View>
-                        </TouchableOpacity>
-                    </View>
-                }
-                withHandle={false}>
-                <ScrollView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={styles.sendPostModal}>
-                    {/*IF USER POST */}
-                    <TouchableOpacity style={styles.actionsBtnOnPost}>
-                        <Text style={styles.textProblem}>Supprimer le post</Text>
-                    </TouchableOpacity>
-
-                    {/*IF NOT*/}
-                    <TouchableOpacity style={styles.actionsBtnOnPost}>
-                        <Text style={styles.textProblem}>Signaler</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.actionsBtnOnPost}>
-                        <Text>Se désabonner</Text>
-                    </TouchableOpacity>
-
-                    {/*IF USER POST & USER IS PRO*/}
-                    <TouchableOpacity style={styles.actionsBtnOnPost}>
-                        <Text>Ne montrer ceci qu'à mes abonnés</Text>
-                    </TouchableOpacity>
-                </ScrollView>
-            </Modalize>
         </SafeAreaView>
     );
 };
@@ -218,7 +111,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         textAlign: "center",
-        backgroundColor: colors.background,
     },
     scrollView: {
         paddingTop: 16,

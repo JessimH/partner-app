@@ -237,7 +237,7 @@ const Register = ({navigation}) => {
                             secureTextEntry={showPass}
                             placeholder="Mot de passe *"
                             onChangeText={(text) => setPassword(text)}
-                            maxLength={10}
+                            maxLength={12}
                             editable={!isLoading}
                             underlineColorAndroid="transparent"
                         />
@@ -364,7 +364,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        backgroundColor: colors.background,
     },
     loginContainer: {
         width: "100%",

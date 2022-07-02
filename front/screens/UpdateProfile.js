@@ -343,7 +343,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        backgroundColor: colors.background,
     },
     loginContainer: {
         width: "100%",

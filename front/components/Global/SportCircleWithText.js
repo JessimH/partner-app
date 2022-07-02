@@ -15,7 +15,7 @@ const SportCircleWithText = ({ navigation, sportType }) => {
 
 const styles = StyleSheet.create({
     SportCircle_container: {
-        marginLeft: 16,
+        marginLeft: 24,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

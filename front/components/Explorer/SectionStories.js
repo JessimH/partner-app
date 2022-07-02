@@ -7,7 +7,7 @@ import CoachingTaro from "./CoachingTaro";
 const SectionSport = ({ navigation }) => {
     return (
         <View style={styles.SectionPro}>
-            <Text style={styles.sectionTitle}>Surpassez-vous ! 💪</Text>
+            <Text style={styles.sectionTitle}>Les meilleurs coachs pour vous ! 💪</Text>
             <View style={styles.StoryPreview_section}>
                 <CoachingTaro />
                 <CoachingTaro />

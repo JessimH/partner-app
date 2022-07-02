@@ -26,6 +26,7 @@ import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../assets/css_variables/Colors";
 import UserCircle from "../components/Global/UserCircle";
+import ScreenHeader from "../components/Global/ScreenHeader";
 
 const win = Dimensions.get('window');
 
@@ -59,7 +60,7 @@ const Map = ({ navigation }) => {
         CheckIfLocationEnabled();
         GetAddSessionLocation();
         GetSessionLocation()
-    }, []);
+    }, [locationServiceEnabled, location]);
 
     useEffect(() => {
         (async () => {
@@ -77,7 +78,7 @@ const Map = ({ navigation }) => {
             setLocation(location);
         })();
     }, []);
-
+    
     let coords = null
     let addSessionlat = null
     let addSessionlong = null
@@ -245,8 +246,8 @@ const Map = ({ navigation }) => {
             console.log('response:', response);
             for (let item of response) {
                 let address = `${item.name}, ${item.postalCode}, ${item.city}`;
-
                 setDisplayCurrentAddress(address);
+                address = ''
             }
         }
         console.log('GetSessionLocation:', coords);
@@ -299,7 +300,7 @@ const Map = ({ navigation }) => {
                     <View style={StyleSheet.absoluteFillObject}>
                         <MapView
                             ref={mapRef}
-                            style={StyleSheet.absoluteFillObject}
+                            style={[StyleSheet.absoluteFillObject, styles.mapView]}
                             // showsUserLocation={true}
                             initialRegion={{
                                 "latitude": location.coords.latitude,
@@ -318,30 +319,6 @@ const Map = ({ navigation }) => {
                                 }}
                             >
                                 <SportCircle sportType={'⚽️'}/>
-                            </Marker>
-
-                            <Marker
-                                key={1}
-                                style={{ zIndex: 4 }}
-                                onPress={goToMarkerLocation}
-                                coordinate={{
-                                    latitude: location.coords.latitude + 0.009,
-                                    longitude: location.coords.longitude + 0.003,
-                                }}
-                            >
-                                <SportCircle sportType={'🏀'}/>
-                            </Marker>
-
-                            <Marker
-                                key={1}
-                                style={{ zIndex: 4 }}
-                                onPress={goToMarkerLocation}
-                                coordinate={{
-                                    latitude: location.coords.latitude - 0.009,
-                                    longitude: location.coords.longitude - 0.003,
-                                }}
-                            >
-                                <SportCircle sportType={'🎾'}/>
                             </Marker>
 
                             {/*USER MARKER*/}
@@ -699,19 +676,9 @@ const Map = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 }
-                FooterComponent={
-                    <View>
-                        <TouchableOpacity style={styles.confirmPost}
-                                          onPress={joinSessionToDb}>
-                            <Text style={styles.confirmText}>
-                                Rejoindre
-                            </Text>
-                            <Ionicons style={styles.arrowIcon} name="arrow-forward" size={25}/>
-                        </TouchableOpacity>
-                    </View>
-                }
             >
                 <ScrollView
+                    contentContainerStyle={{paddingVertical: 20}}
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={styles.infoSceanceModal}>
                     <Text style={[styles.formTitle, {marginBottom: 32}]}>Hop ! Hop ! Ici on transpire ! 💦</Text>
@@ -735,16 +702,38 @@ const Map = ({ navigation }) => {
                     <Text style={styles.sessioninf}>1 / 10</Text>
                     <Text style={styles.inputLabel}>Partners :</Text>
                     <View style={styles.sessionsPartners}>
-                        <UserCircle/>
-                        <UserCircle/>
-                        <UserCircle/>
-                        <UserCircle/>
-                        <UserCircle/>
-                        <UserCircle/>
-                        <UserCircle/>
-                        <UserCircle/>
-                        <UserCircle/>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
+                        <View style={{marginBottom: 16}}>
+                            <UserCircle/>
+                        </View>
                     </View>
+                    <TouchableOpacity style={styles.confirmPost}
+                                      onPress={sendSessionToDb}>
+                        <Text style={styles.confirmText}>
+                            Rejoindre
+                        </Text>
+                        <Ionicons style={styles.arrowIcon} name="arrow-forward" size={25}/>
+                    </TouchableOpacity>
                 </ScrollView>
             </Modalize>
         </SafeAreaView>
@@ -860,8 +849,6 @@ const styles = StyleSheet.create({
     infoSceanceModal: {
         width: '100%',
         height: 700,
-        paddingTop: 10,
-        paddingBottom: 600,
         paddingHorizontal: 24,
     },
 
@@ -937,8 +924,8 @@ const styles = StyleSheet.create({
         marginTop: -24,
     },
     sessionInfos:{
-        marginLeft: -16,
-        paddingRight: 30,
+        marginLeft: -8,
+        paddingRight: 38,
         width: win.width,
         display: 'flex',
         flexDirection: 'row',
@@ -984,7 +971,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         width: '100%',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         flexWrap: 'wrap',
     },
 

@@ -25,7 +25,6 @@ const UserCircle = ({ navigation, profilPic }) => {
 
 const styles = StyleSheet.create({
     UserCircle: {
-        marginLeft: 16,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

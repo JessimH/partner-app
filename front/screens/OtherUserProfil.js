@@ -4,7 +4,6 @@ import React, {useRef} from "react";
 import {View, StyleSheet, Text, SafeAreaView, Plateform, TouchableOpacity} from "react-native";
 import {ScrollView} from "react-native-gesture-handler";
 import UserRow from "../components/Global/UserRow";
-import Feed from "../components/Global/Feed";
 import UserInfo from "../components/Global/UserInfo";
 import colors from "../assets/css_variables/Colors";
 import UserBio from "../components/Global/UserBio";
@@ -145,7 +144,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         textAlign: "center",
-        backgroundColor: colors.background,
     },
     scrollView: {
         paddingTop: 16,
